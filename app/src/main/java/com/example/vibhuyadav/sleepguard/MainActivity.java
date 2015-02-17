@@ -51,6 +51,7 @@ import dartmouth.edu.sleepguard.util.Constants;
 public class MainActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
+
     private Switch mSwitch;
     private ImageView mBackgroundView;
     public SleepGuardServiceReceiver mReceiverForTest;
@@ -62,11 +63,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
     private boolean notificationActive = false;
 
-
-
-    private Registration recService;
-    private Registration regService;
-
     TextView mDisplay;
     GoogleCloudMessaging gcm;
     AtomicInteger msgId = new AtomicInteger();
@@ -74,6 +70,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     Context context;
 
     String regid;
+
 //    Project Number: 530139348531
 //    AIzaSyA4leitlYlOE5vf-ULWGyT4R2utolTRekM
 
@@ -122,7 +119,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         View.OnClickListener handler = new View.OnClickListener(){
             public void onClick(View v) {
                 if (!notificationActive){
-                    showNotification("You are disturbing someone's peace sleep");
+                    showNotification("You are disturbing someone's peace!! Sleep");
                     notificationActive = true;
                 }else{
                     cancelNotification(0);

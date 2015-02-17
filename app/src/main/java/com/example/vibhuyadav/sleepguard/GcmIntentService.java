@@ -29,6 +29,7 @@ public class GcmIntentService extends IntentService {
 
     public static final String TAG = "GCM Demo";
 
+
     @Override
     protected void onHandleIntent(Intent intent) {
         Bundle extras = intent.getExtras();
@@ -36,6 +37,11 @@ public class GcmIntentService extends IntentService {
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
+
+        Intent dialogIntent = new Intent(getBaseContext(), MainActivity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        dialogIntent.putExtra("servermessage", extras);
+        getApplication().startActivity(dialogIntent);
 
         if (!extras.isEmpty() && !extras.isEmpty()) {  // has effect of unparcelling Bundle
             /*
