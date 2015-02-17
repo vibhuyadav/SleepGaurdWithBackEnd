@@ -93,7 +93,8 @@ public class GcmIntentService extends IntentService {
                         .setContentTitle("SleepGuard")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(message))
-                        .setContentText(message).setSound(soundUri);
+                        .setContentText(message)
+                        .setSound(soundUri);
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());

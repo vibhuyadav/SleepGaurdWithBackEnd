@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
@@ -16,6 +18,7 @@ public class AlertReceiver extends BroadcastReceiver {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void onReceive(Context context, Intent intent) {
         Log.d("Receiver", "Alert!!!!!!!!!!!");
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         String svcName=Context.NOTIFICATION_SERVICE;
         NotificationManager notificationManager;
@@ -28,6 +31,7 @@ public class AlertReceiver extends BroadcastReceiver {
         builder.setSmallIcon(R.drawable.ic_launcher)
                .setContentText("Your roommate is Sleeping")
                .setContentTitle("Noise Alert!!!")
+               .setSound(soundUri)
                .setWhen(when);
         Notification notification=builder.build();
 
