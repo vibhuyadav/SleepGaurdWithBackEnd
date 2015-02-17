@@ -26,8 +26,8 @@ public class AlertReceiver extends BroadcastReceiver {
         long when=System.currentTimeMillis();
         Notification.Builder builder=new Notification.Builder(context);
         builder.setSmallIcon(R.drawable.ic_launcher)
-               .setContentText("Your roommate is sleeping")
-               .setContentTitle("Noise Alert")
+               .setContentText("Your roommate is Sleeping")
+               .setContentTitle("Noise Alert!!!")
                .setWhen(when);
         Notification notification=builder.build();
 
