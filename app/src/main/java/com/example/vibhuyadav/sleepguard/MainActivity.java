@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -133,6 +135,13 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
         // we will set the listeners
         findViewById(R.id.testNotificationButton).setOnClickListener(handler);
+
+        Intent mServiceIntent = new Intent(this, Voice.class);
+        startService(mServiceIntent);
+
+        IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
+        AlertReceiver alertReceiver=new AlertReceiver();
+        LocalBroadcastManager.getInstance(this).registerReceiver(alertReceiver,alterIntentFilter);
 
     }
 
