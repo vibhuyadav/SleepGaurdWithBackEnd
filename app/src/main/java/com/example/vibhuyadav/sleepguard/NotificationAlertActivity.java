@@ -23,7 +23,7 @@ public class NotificationAlertActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         IntentFilter filter = new IntentFilter(ACTION);
-        this.registerReceiver(mReceivedSMSReceiver, filter);
+        this.registerReceiver(mReceivedNotification, filter);
     }
 
 
@@ -45,7 +45,7 @@ public class NotificationAlertActivity extends Activity {
         alert.show();
     }
 
-    private final BroadcastReceiver mReceivedSMSReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceivedNotification = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
