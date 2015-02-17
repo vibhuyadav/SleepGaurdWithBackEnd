@@ -25,8 +25,7 @@ public class AlertReceiver extends BroadcastReceiver {
         String tickerText="Noise Alert";
         long when=System.currentTimeMillis();
         Notification.Builder builder=new Notification.Builder(context);
-        builder.setSmallIcon(icon)
-               .setTicker(tickerText)
+        builder.setSmallIcon(R.drawable.ic_launcher)
                .setContentText("Your roommate is sleeping")
                .setContentTitle("Noise Alert")
                .setWhen(when);
