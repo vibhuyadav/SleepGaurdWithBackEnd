@@ -19,6 +19,7 @@ public class Constants {
     public static final String PROPERTY_REG_ID = "registration_id";
     public static final String PROPERTY_APP_VERSION = "appVersion";
     public static final String SENDER_ID = "530139348531";
+    public static final String NOISE_ALERT ="com.example.vibhuyadav.sleepguard.ALERT";
 
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
