@@ -38,10 +38,10 @@ public class GcmIntentService extends IntentService {
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
 
-        Intent dialogIntent = new Intent(getBaseContext(), NotificationAlertActivity.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        dialogIntent.putExtra("servermessage", extras);
-        getApplication().startActivity(dialogIntent);
+//        Intent dialogIntent = new Intent(getBaseContext(), NotificationAlertActivity.class);
+//        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        dialogIntent.putExtra("servermessage", extras);
+//        getApplication().startActivity(dialogIntent);
 
         if (!extras.isEmpty() && !extras.isEmpty()) {  // has effect of unparcelling Bundle
             /*
