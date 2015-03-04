@@ -10,4 +10,6 @@
     <string name="DisturbingNotification">You are disturbing someone\'s sleep</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+    <color name="notification_background">#FFECEDEE</color>
+    <color name="black">#FF000000</color>
 </resources>
