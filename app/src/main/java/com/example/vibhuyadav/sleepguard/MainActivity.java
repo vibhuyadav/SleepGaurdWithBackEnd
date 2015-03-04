@@ -242,7 +242,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
 //        Intent mServiceIntent = new Intent(this, Voice.class);
 //        startService(mServiceIntent);
-        NoiseSleepRunnable noiseSleepRunnable=new NoiseSleepRunnable(this.getApplicationContext());
+        NoiseSleepRunnable noiseSleepRunnable=new NoiseSleepRunnable(this.getApplicationContext(),getRegistrationId(context));
         Thread thread=new Thread(noiseSleepRunnable);
         thread.start();
 
