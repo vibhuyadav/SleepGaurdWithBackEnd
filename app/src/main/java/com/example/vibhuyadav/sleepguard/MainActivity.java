@@ -128,13 +128,18 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // listener handler
         View.OnClickListener handler = new View.OnClickListener(){
             public void onClick(View v) {
-                if (!notificationActive){
+                /*if (!notificationActive){
                     showNotification("You are disturbing someone's peace!! Sleep");
                     notificationActive = true;
+                    Intent i = new Intent(getApplicationContext(), NotificationService.class);
+                    getApplicationContext().startService(i);
                 }else{
                     cancelNotification(0);
                     notificationActive = false;
-                }
+                }*/
+                Log.d(Constants.SleepGuardTag,"Calling Notfication Service");
+                Intent i = new Intent(getApplicationContext(), NotificationService.class);
+                getApplicationContext().startService(i);
             }
         };
 

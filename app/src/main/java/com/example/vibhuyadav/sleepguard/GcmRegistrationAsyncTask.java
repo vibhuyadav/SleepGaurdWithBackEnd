@@ -16,13 +16,13 @@ import java.util.logging.Logger;
 /**
  * Created by vibhuyadav on 2/16/15.
  */
-class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
+public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
     private static Registration regService = null;
     private GoogleCloudMessaging gcm;
     private Context context;
 
     // TODO: change to your own sender ID to Google Developers Console project number, as per instructions above
-    private static final String SENDER_ID = "530139348531";//Vihub:"530139348531" Wei:"454255453333"
+    private static final String SENDER_ID = "530139348531";//Vibhu:"530139348531" Wei:"454255453333"
 
     public GcmRegistrationAsyncTask(Context context) {
         this.context = context;
@@ -35,7 +35,7 @@ class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
                     //.setRootUrl("https://stable-synapse-857.appspot.com/_ah/api/");
                     .setRootUrl("https://praxis-practice-856.appspot.com/_ah/api/");
             // end of optional local run code
-            //Vihub:"https://praxis-practice-856.appspot.com/_ah/api/"
+            //Vibhu:"https://praxis-practice-856.appspot.com/_ah/api/"
             //Wei  :"https://stable-synapse-857.appspot.com/_ah/api/"
             regService = builder.build();
         }

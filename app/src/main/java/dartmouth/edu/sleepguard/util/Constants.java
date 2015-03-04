@@ -30,5 +30,13 @@ public class Constants {
      * The fastest rate for active location updates. Exact. Updates will never be more frequent
      * than this value.
      */
+
+    /*
+    * Shared Preferences Stuff
+    * */
+
+    public static final String SHARED_PREFERENCES_FILE = "UserPreferences";
+    public static final String MY_SLEEP_STATUS = "MySleepStatus";
+
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 }

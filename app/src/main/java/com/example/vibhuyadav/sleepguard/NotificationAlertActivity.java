@@ -14,9 +14,9 @@ import android.os.Bundle;
  */
 public class NotificationAlertActivity extends Activity {
 
-    private static final String LOG_TAG = "SMSReceiver";
+/*    private static final String LOG_TAG = "SMSReceiver";
     public static final int NOTIFICATION_ID_RECEIVED = 0x1221;
-    static final String ACTION = "notifications";
+    static final String ACTION = "com.example.vibhuyadav.sleepguard.notifications";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,5 +53,5 @@ public class NotificationAlertActivity extends Activity {
 
             displayAlert(message);
         }
-    };
+    };*/
 }
