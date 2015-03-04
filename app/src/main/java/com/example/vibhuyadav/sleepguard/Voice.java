@@ -7,7 +7,6 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.media.audiofx.AutomaticGainControl;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import dartmouth.edu.sleepguard.util.Constants;
 
@@ -45,11 +44,11 @@ public class Voice extends IntentService {
             }
             double mean = v / (double) r;
             double volume = 10 * Math.log10(mean);
-            if(volume>60) {
+            if(volume>80) {
                 Intent localIntent = new Intent(Constants.NOISE_ALERT);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
             }
-            Log.d(TAG, "Db:" + volume);
+//            Log.d(TAG, "Db:" + volume);
             synchronized (mLock) {
                 try {
                     mLock.wait(100);

@@ -100,6 +100,14 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
         buildGoogleApiClient();
 
+//        Parse.enableLocalDatastore(this);
+//
+//        Parse.initialize(this, "U4NWxSvQnK89zC4XcBOU5TNv5CY9z0mZaeEtvXZG", "TxCmQWzjvpwmD18gqHjxjkcY8cWGalkQRcFRfoX7");
+
+//        ParseObject testObject = new ParseObject("TestObject");
+//        testObject.put("foo", "bar");
+//        testObject.saveInBackground();
+
         mSwitch = (Switch) findViewById(R.id.sleepToogle);
         mBackgroundView = (ImageView) findViewById(R.id.backgroundImage);
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -130,15 +138,21 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             }
         };
 
+
         // we will set the listeners
         findViewById(R.id.testNotificationButton).setOnClickListener(handler);
 
-        Intent mServiceIntent = new Intent(this, Voice.class);
-        startService(mServiceIntent);
+//        Intent mServiceIntent = new Intent(this, Voice.class);
+//        startService(mServiceIntent);
+        NoiseSleepRunnable noiseSleepRunnable=new NoiseSleepRunnable(this.getApplicationContext());
+        Thread thread=new Thread(noiseSleepRunnable);
+        thread.start();
 
         IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
         AlertReceiver alertReceiver=new AlertReceiver();
         LocalBroadcastManager.getInstance(this).registerReceiver(alertReceiver,alterIntentFilter);
+
+
 
     }
 
@@ -409,7 +423,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     public void onLocationChanged(Location location) {
         mLastKnownLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        Log.d(Constants.SleepGuardTag, String.valueOf(mLastKnownLocation.getLongitude()) + String.valueOf(mLastKnownLocation.getLatitude()));
+//        Log.d(Constants.SleepGuardTag, String.valueOf(mLastKnownLocation.getLongitude()) + String.valueOf(mLastKnownLocation.getLatitude()));
         Toast.makeText(this, "Location Updated",
                 Toast.LENGTH_SHORT).show();
     }

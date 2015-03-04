@@ -22,7 +22,7 @@ class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
     private Context context;
 
     // TODO: change to your own sender ID to Google Developers Console project number, as per instructions above
-    private static final String SENDER_ID = "530139348531";
+    private static final String SENDER_ID = "530139348531";//Vihub:"530139348531" Wei:"454255453333"
 
     public GcmRegistrationAsyncTask(Context context) {
         this.context = context;
@@ -32,9 +32,11 @@ class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         if (regService == null) {
             Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+                    //.setRootUrl("https://stable-synapse-857.appspot.com/_ah/api/");
                     .setRootUrl("https://praxis-practice-856.appspot.com/_ah/api/");
             // end of optional local run code
-
+            //Vihub:"https://praxis-practice-856.appspot.com/_ah/api/"
+            //Wei  :"https://stable-synapse-857.appspot.com/_ah/api/"
             regService = builder.build();
         }
 
