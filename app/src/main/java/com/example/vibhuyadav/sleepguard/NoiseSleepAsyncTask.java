@@ -19,6 +19,7 @@ public class NoiseSleepAsyncTask extends AsyncTask<String[], Void, String> {
         if (sleepReceiverApi == null) {
             SleepReceiverApi.Builder builder = new SleepReceiverApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     .setRootUrl("https://stable-synapse-857.appspot.com/_ah/api/");
+
             // end of optional local run code
             //Vihub:"https://praxis-practice-856.appspot.com/_ah/api/"
             //Wei  :"https://stable-synapse-857.appspot.com/_ah/api/"

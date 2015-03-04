@@ -11,7 +11,7 @@ import android.util.Log;
 import dartmouth.edu.sleepguard.util.Constants;
 
 /**
- * Created by WeiHuang on 3/3/2015.
+ * Created by WeiHuang on 3/3/2015a.
  */
 public class NoiseSleepRunnable implements Runnable {
     private static final String TAG = "AudioRecord";
