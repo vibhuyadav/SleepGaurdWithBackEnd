@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 /**
  * Created by vibhuyadav on 2/16/15.
  */
-class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
+public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
     private static Registration regService = null;
     private GoogleCloudMessaging gcm;
     private Context context;

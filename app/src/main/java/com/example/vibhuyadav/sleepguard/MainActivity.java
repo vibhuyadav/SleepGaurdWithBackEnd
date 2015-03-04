@@ -201,6 +201,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
      * @return registration ID, or empty string if there is no existing
      *         registration ID.
      */
+
     private String getRegistrationId(Context context) {
         final SharedPreferences prefs = getGCMPreferences(context);
         String registrationId = prefs.getString(Constants.PROPERTY_REG_ID, "");
