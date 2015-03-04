@@ -17,14 +17,22 @@
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
         android:layout_weight="1"
-        android:text="This is test Text"
+        android:text="Your Roomate is sleeping"
         android:padding="5dp"
         android:textColor="@color/black"
         android:background="@drawable/notification_background">
 
         <requestFocus />
     </EditText>
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="right|center_vertical"
+        android:background="@drawable/ic_icon_delete" />
 
 </LinearLayout>

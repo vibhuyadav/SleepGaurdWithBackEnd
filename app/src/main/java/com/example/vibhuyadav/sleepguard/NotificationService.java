@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.view.WindowManager.LayoutParams;
 
@@ -27,6 +28,7 @@ public class NotificationService extends Service {
     View notificationView;
     LayoutInflater mInflater;
     CircularImageView circularImageView;
+    Button mCloseButton;
     int screenWidth;
     int screenHeight;
 
@@ -57,10 +59,17 @@ public class NotificationService extends Service {
         notificationView = mInflater.inflate(R.layout.floating_notification, null, false);
         circularImageView = (CircularImageView)notificationView.findViewById(R.id.profile_picture);
         circularImageView.setImageResource(R.drawable.ic_launcher);
-
+        mCloseButton = (Button)notificationView.findViewById(R.id.delete_button);
+        mCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                windowManager.removeView(notificationView);
+            }
+        });
 
         chatHead2 = new ImageView(this);
         chatHead2.setImageResource(R.drawable.ic_launcher);
+
 
         params = new LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -98,17 +107,17 @@ public class NotificationService extends Service {
                         initialY = params.y;
                         initialTouchX = event.getRawX();
                         initialTouchY = event.getRawY();
-                        windowManager.addView(chatHead2, params2);
+                    //    windowManager.addView(chatHead2, params2);
 
                         return true;
                     case MotionEvent.ACTION_UP:
-                        windowManager.removeView(chatHead2);
+  /*                    //  windowManager.removeView(chatHead2);
                         if (Math.abs(params.x - screenWidth/2) < 100 && Math.abs(params.y - screenHeight) < 100){
                             Log.d("NotificationService", "Outside Action");
 
                             windowManager.removeView(notificationView);
                             return true;
-                        }
+                        }*/
                         return true;
                     case MotionEvent.ACTION_MOVE:
                         params.x = initialX + (int) (event.getRawX() - initialTouchX);
@@ -133,7 +142,7 @@ public class NotificationService extends Service {
                         return true;
                     case MotionEvent.ACTION_HOVER_EXIT:
                         Log.d("NotificationService", "Outside Action");
-                        windowManager.removeView(notificationView);
+                     //   windowManager.removeView(notificationView);
                         return true;
                 }
                 return false;
@@ -146,6 +155,7 @@ public class NotificationService extends Service {
         super.onDestroy();
         if (notificationView != null) windowManager.removeView(notificationView);
     }
+
 
 
 
