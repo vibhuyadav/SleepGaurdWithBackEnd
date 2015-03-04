@@ -128,13 +128,18 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // listener handler
         View.OnClickListener handler = new View.OnClickListener(){
             public void onClick(View v) {
-                if (!notificationActive){
+                /*if (!notificationActive){
                     showNotification("You are disturbing someone's peace!! Sleep");
                     notificationActive = true;
+                    Intent i = new Intent(getApplicationContext(), NotificationService.class);
+                    getApplicationContext().startService(i);
                 }else{
                     cancelNotification(0);
                     notificationActive = false;
-                }
+                }*/
+                Log.d(Constants.SleepGuardTag,"Calling Notfication Service");
+                Intent i = new Intent(getApplicationContext(), NotificationService.class);
+                getApplicationContext().startService(i);
             }
         };
 
@@ -201,7 +206,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
      * @return registration ID, or empty string if there is no existing
      *         registration ID.
      */
-
     private String getRegistrationId(Context context) {
         final SharedPreferences prefs = getGCMPreferences(context);
         String registrationId = prefs.getString(Constants.PROPERTY_REG_ID, "");
