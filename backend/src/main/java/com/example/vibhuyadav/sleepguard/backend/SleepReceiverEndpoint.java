@@ -27,7 +27,7 @@ import sun.rmi.transport.Endpoint;
 public class SleepReceiverEndpoint {
 
     private static final Logger logger = Logger.getLogger(SleepReceiverEndpoint.class.getName());
-
+    //
     @ApiMethod(name = "sendTimeStamp")
     public void sendTimeStamp(@Named("regId") String regId,@Named("timeStamp") String timeStamp) throws IOException {
         MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
