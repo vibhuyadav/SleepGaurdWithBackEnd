@@ -138,11 +138,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             }
         };
 
+
         // we will set the listeners
         findViewById(R.id.testNotificationButton).setOnClickListener(handler);
 
-        Intent mServiceIntent = new Intent(this, Voice.class);
-        startService(mServiceIntent);
+//        Intent mServiceIntent = new Intent(this, Voice.class);
+//        startService(mServiceIntent);
+        NoiseSleepRunnable noiseSleepRunnable=new NoiseSleepRunnable(this.getApplicationContext());
+        Thread thread=new Thread(noiseSleepRunnable);
+        thread.start();
 
         IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
         AlertReceiver alertReceiver=new AlertReceiver();
