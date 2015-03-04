@@ -25,9 +25,11 @@ public class NoiseSleepRunnable implements Runnable {
     boolean isGetAudio = true;
     //AutomaticGainControl ACG;
     Object mLock;
+    String regId;
     Context context;
-    public NoiseSleepRunnable(Context ctxt){
+    public NoiseSleepRunnable(Context ctxt,String regId){
         context=ctxt;
+        this.regId=regId;
     }
 
     public void terminate(){
@@ -50,11 +52,13 @@ public class NoiseSleepRunnable implements Runnable {
             for (int i = 0; i < r; i++) {
                 audioWindow.push(buffer[i], approximateTime);
             }
-            Log.d("Num over threshold", Integer.toString(audioWindow.num_over_threshold));
+            //Log.d("Num over threshold", Integer.toString(audioWindow.num_over_threshold));
             if (audioWindow.num_over_threshold > NUM_OVER_THRESHOLD && audioWindow.isFull()) {
                 Intent localIntent = new Intent(Constants.NOISE_ALERT);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
                 Log.d("Start Time", Long.toString(audioWindow.getTimeStamp()));
+                String[] params={regId,Long.toString(audioWindow.getTimeStamp())};
+                new NoiseSleepAsyncTask().execute(params);
                 isGetAudio = false;
             }
             synchronized (mLock) {
