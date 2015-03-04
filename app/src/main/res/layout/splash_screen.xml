@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- @drawable/backrepeat - refers to the image - check backrepeat.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/starynight" >
+    android:background="@drawable/starynight"
+    tools:context=".SplashScreenActivity">
 
     <ImageView
         android:id="@+id/imgLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerInParent="true"
         android:src="@drawable/sleepguardsplash"
         android:tileMode="repeat" />
@@ -17,10 +18,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="150dp"
         android:gravity="center_horizontal"
-        android:text="javapapers.com"
-        android:textColor="#454545"
-        android:textSize="12sp" />
+        android:text="SleepGuard"
+        android:textColor="#999999"
+        android:textSize="24sp" />
 
 </RelativeLayout>

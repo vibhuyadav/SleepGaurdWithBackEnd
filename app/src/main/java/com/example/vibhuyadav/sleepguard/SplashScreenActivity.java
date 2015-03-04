@@ -11,7 +11,7 @@ import android.os.Bundle;
 
 public class SplashScreenActivity extends Activity {
 
-    private static final int SPLASH_SHOW_TIME = 5000;
+    private static final int SPLASH_SHOW_TIME = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,29 +26,16 @@ public class SplashScreenActivity extends Activity {
      * Async Task: can be used to load DB, images during which the splash screen
      * is shown to user
      */
-    private class BackgroundSplashTask extends AsyncTask {
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            return null;
-        }
+    private class BackgroundSplashTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
-//        @Override
-        protected Void doInBackground(Void... arg0) {
+        @Override
+        protected Void doInBackground(Void... params) {
 
-            // I have just given a sleep for this thread
-            // if you want to load database, make
-            // network calls, load images
-            // you can do them here and remove the following
-            // sleep
-
-            // do not worry about this Thread.sleep
-            // this is an async task, it will not disrupt the UI
             try {
                 Thread.sleep(SPLASH_SHOW_TIME);
             } catch (InterruptedException e) {
@@ -58,7 +45,8 @@ public class SplashScreenActivity extends Activity {
             return null;
         }
 
-//        @Override
+
+        @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             Intent i = new Intent(SplashScreenActivity.this,
