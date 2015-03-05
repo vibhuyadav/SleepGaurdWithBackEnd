@@ -8,9 +8,8 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
-import javax.xml.stream.events.EndDocument;
 
-import sun.rmi.transport.Endpoint;
+import static com.example.vibhuyadav.sleepguard.backend.OfyService.ofy;
 
 /**
  * An endpoint class we are exposing
@@ -30,7 +29,16 @@ public class SleepReceiverEndpoint {
 
     @ApiMethod(name = "sendTimeStamp")
     public void sendTimeStamp(@Named("regId") String regId,@Named("timeStamp") String timeStamp) throws IOException {
-        MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
-        messagingEndpoint.sendMessage(timeStamp);
+//        MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
+//        messagingEndpoint.sendMessage(timeStamp);
+
+        SleepReceiverRecord record = new SleepReceiverRecord();
+        record.setTimestampId(timeStamp);
+        ofy().save().entity(record).now();
     }
+
+    private SleepReceiverRecord findRecord(String timestamp) {
+        return ofy().load().type(SleepReceiverRecord.class).filter("timeStamp", timestamp).first().now();
+    }
+
 }

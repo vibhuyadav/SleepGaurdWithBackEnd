@@ -11,7 +11,7 @@ import com.googlecode.objectify.annotation.Index;
 public class SleepReceiverRecord {
 
     @Id
-    Long id;
+    String deviceID;
 
     @Index
     private String timestamp;
