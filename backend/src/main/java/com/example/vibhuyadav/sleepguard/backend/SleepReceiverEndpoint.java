@@ -9,8 +9,6 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
-import static com.example.vibhuyadav.sleepguard.backend.OfyService.ofy;
-
 /**
  * An endpoint class we are exposing
  */
@@ -29,16 +27,8 @@ public class SleepReceiverEndpoint {
 
     @ApiMethod(name = "sendTimeStamp")
     public void sendTimeStamp(@Named("regId") String regId,@Named("timeStamp") String timeStamp) throws IOException {
-//        MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
-//        messagingEndpoint.sendMessage(timeStamp);
-
-        SleepReceiverRecord record = new SleepReceiverRecord();
-        record.setTimestampId(timeStamp);
-        ofy().save().entity(record).now();
+        MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
+        System.out.println("inSendTimeStampFunction");
+        messagingEndpoint.sendMessage(timeStamp);
     }
-
-    private SleepReceiverRecord findRecord(String timestamp) {
-        return ofy().load().type(SleepReceiverRecord.class).filter("timeStamp", timestamp).first().now();
-    }
-
 }

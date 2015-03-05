@@ -72,8 +72,9 @@ public class AudioWindow {
     }
 
     public boolean isFull(){
-        if(num_of_nodes==width)
+        if(num_of_nodes==width){
             return true;
+        }
         else
             return false;
     }

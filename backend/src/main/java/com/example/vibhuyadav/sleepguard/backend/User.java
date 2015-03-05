@@ -35,7 +35,7 @@ public class User {
     }
 
     public Double getLatitude(){
-        return this.mLongitude;
+        return this.mLatitude;
     }
 
     public void setLatitude(Double latitude){

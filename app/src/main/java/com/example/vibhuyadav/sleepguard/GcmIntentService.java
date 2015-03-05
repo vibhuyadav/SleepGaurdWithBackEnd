@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import dartmouth.edu.sleepguard.util.Constants;
+
 
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
@@ -68,8 +70,7 @@ public class GcmIntentService extends IntentService {
 //                }
 //                Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                sendNotification("Please Do not Disturb: " + extras.getString("message"));
-                Log.i(TAG, "Received: " + extras.getString("message"));
+                //sendNotification("Please Do not Disturb: " + extras.getString("message"));
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.

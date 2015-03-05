@@ -12,6 +12,8 @@ public class UserPreferences {
 
     private SharedPreferences.Editor editor;
     SharedPreferences sharedPref;
+    Double mLongitude;
+    Double mLatitude;
     Boolean mSleepStatus;
     String mDeviceId;
 
@@ -34,6 +36,26 @@ public class UserPreferences {
     public void setMyDeviceId(String mDeviceId) {
         editor = sharedPref.edit();
         editor.putString(Constants.MY_DEVICE_ID, mDeviceId);
+        editor.commit();
+    }
+
+    public Double getMyLongitude() {
+        return (double)sharedPref.getFloat(Constants.MY_LONGITUDE, 0.0f);
+    }
+
+    public void setMyLongitude(Double mLongitude) {
+        editor = sharedPref.edit();
+        editor.putFloat(Constants.MY_LONGITUDE, mLongitude.floatValue());
+        editor.commit();
+    }
+
+    public Double getMyLatitude() {
+        return (double)(sharedPref.getFloat(Constants.MY_LATITUDE, 0.0f));
+    }
+
+    public void setMyLatitude(Double mLatidtude) {
+        editor = sharedPref.edit();
+        editor.putFloat(Constants.MY_LATITUDE, mLatidtude.floatValue());
         editor.commit();
     }
 

@@ -11,6 +11,7 @@ import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 import com.google.api.server.spi.config.Api;
+import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ import static com.example.vibhuyadav.sleepguard.backend.OfyService.ofy;
  * authentication! If this app is deployed, anyone can access this endpoint! If
  * you'd like to add authentication, take a look at the documentation.
  */
-@Api(name = "messaging", version = "v1", namespace = @ApiNamespace(ownerDomain = "backend.sleepguard.vibhuyadav.example.com", ownerName = "backend.sleepguard.vibhuyadav.example.com", packagePath = ""))
+@Api(name = "messaging", version = "v1", namespace = @ApiNamespace(ownerDomain = "com.example.vibhuyadav.sleepguard.backend", ownerName = "com.example.vibhuyadav.sleepguard.backend", packagePath = ""))
 public class MessagingEndpoint {
     private static final Logger log = Logger.getLogger(MessagingEndpoint.class.getName());
 
@@ -45,6 +46,7 @@ public class MessagingEndpoint {
      *
      * @param message The message to send
      */
+    @ApiMethod(name = "sendMessage")
     public void sendMessage(@Named("message") String message) throws IOException {
         if (message == null || message.trim().length() == 0) {
             log.warning("Not sending message because it is empty");
