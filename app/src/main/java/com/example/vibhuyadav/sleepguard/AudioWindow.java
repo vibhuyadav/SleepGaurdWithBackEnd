@@ -1,13 +1,16 @@
 package com.example.vibhuyadav.sleepguard;
 
+import android.util.Log;
+
 /**
  * Created by WeiHuang on 3/3/2015.
  */
 public class AudioWindow {
-    int num_over_threshold;
+    long num_over_threshold;
     short threshold;
     int width;
     int num_of_nodes;
+    long cumulate;
     SampleNode top;
     SampleNode bottom;
     SampleNode iterator;
@@ -17,14 +20,19 @@ public class AudioWindow {
         bottom=null;
         num_of_nodes=0;
         num_over_threshold=0;
+        cumulate=0;
         this.threshold=threshold;
         width=seconds*sampleRate;
     }
 
-    public void push(short a,long t){
+    public String[] push(short a,long t){
         SampleNode tempNode=new SampleNode(a,t);
-        if(a>threshold)
+        if(Math.abs(a)>threshold)
+            //Log.d("a",Short.toString(a));
             num_over_threshold++;
+            long s2l=a+0L;
+            cumulate=cumulate+s2l*s2l;
+            //Log.d("cumulate",Long.toString(cumulate));
         if(num_of_nodes==0){
             top=bottom=tempNode;
         }else{
@@ -32,8 +40,10 @@ public class AudioWindow {
             bottom=tempNode;
         }
         num_of_nodes++;
-        if(num_of_nodes>width)
-            pop();
+        if(isFull())
+            return pop();
+        else
+            return null;
     }
 
     public boolean isEmpty(){
@@ -43,16 +53,23 @@ public class AudioWindow {
             return false;
     }
 
-    public short pop(){
+    public String[] pop(){
         if(!isEmpty()) {
             short temp = top.value;
+            long timeStamp=top.timeMills;
             top = top.next;
             num_of_nodes--;
-            if (temp > threshold)
+            if (Math.abs(temp) > threshold){
+                long s2l=temp+0L;
+                cumulate=cumulate-temp*temp;
                 num_over_threshold--;
-            return temp;
+            }
+            String[] strs={Long.toString(timeStamp),Long.toString(num_over_threshold),"0"};
+            if(num_over_threshold!=0)
+                strs[2]=Long.toString(cumulate/num_over_threshold);
+            return strs;
         }else {
-            return 0;
+            return null;
         }
     }
 
@@ -73,20 +90,21 @@ public class AudioWindow {
         else
             return false;
     }
-    public short getNext(){
+    public String[] getNext(){
         iterator=iterator.next;
-        return iterator.value;
+        String[] strs={Short.toString(iterator.value),Long.toString(iterator.timeMills)};
+        return strs;
     }
 
     public long getTimeStamp(){
-        return top.timemills;
+        return top.timeMills;
     }
     private class SampleNode{
         short value;
-        long timemills;
+        long timeMills;
         SampleNode next;
         public SampleNode(short v,long t){
-            timemills=t;
+            timeMills=t;
             value=v;
         }
     }
