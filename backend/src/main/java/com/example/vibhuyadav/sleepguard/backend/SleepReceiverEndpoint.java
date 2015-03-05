@@ -31,6 +31,7 @@ public class SleepReceiverEndpoint {
     @ApiMethod(name = "sendTimeStamp")
     public void sendTimeStamp(@Named("regId") String regId,@Named("timeStamp") String timeStamp) throws IOException {
         MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
+        System.out.println("inSendTimeStampFunction");
         messagingEndpoint.sendMessage(timeStamp);
     }
 }
