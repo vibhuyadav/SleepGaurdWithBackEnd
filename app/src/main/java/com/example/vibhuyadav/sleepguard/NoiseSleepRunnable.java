@@ -50,11 +50,11 @@ public class NoiseSleepRunnable implements Runnable {
             for (int i = 0; i < r; i++) {
                 audioWindow.push(buffer[i], approximateTime);
             }
-            Log.d("Num over threshold", Integer.toString(audioWindow.num_over_threshold));
+          //  Log.d("Num over threshold", Integer.toString(audioWindow.num_over_threshold));
             if (audioWindow.num_over_threshold > NUM_OVER_THRESHOLD && audioWindow.isFull()) {
                 Intent localIntent = new Intent(Constants.NOISE_ALERT);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
-                Log.d("Start Time", Long.toString(audioWindow.getTimeStamp()));
+            //    Log.d("Start Time", Long.toString(audioWindow.getTimeStamp()));
                 isGetAudio = false;
             }
             synchronized (mLock) {

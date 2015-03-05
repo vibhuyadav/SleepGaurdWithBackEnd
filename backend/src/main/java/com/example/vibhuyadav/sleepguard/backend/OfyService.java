@@ -14,6 +14,7 @@ public class OfyService {
 
     static {
         ObjectifyService.register(RegistrationRecord.class);
+        ObjectifyService.register(User.class);
     }
 
     public static Objectify ofy() {

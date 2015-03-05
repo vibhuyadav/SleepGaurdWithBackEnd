@@ -37,6 +37,7 @@ public class Constants {
 
     public static final String SHARED_PREFERENCES_FILE = "UserPreferences";
     public static final String MY_SLEEP_STATUS = "MySleepStatus";
+    public static final String MY_DEVICE_ID = "DeviceId";
 
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 }

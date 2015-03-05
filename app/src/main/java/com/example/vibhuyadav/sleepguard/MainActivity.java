@@ -64,7 +64,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     boolean mRequestingLocationUpdates;
 
     private boolean notificationActive = false;
-
+    UserPreferences mUserPreferences;
     TextView mDisplay;
     GoogleCloudMessaging gcm;
     AtomicInteger msgId = new AtomicInteger();
@@ -80,8 +80,11 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mUserPreferences = new UserPreferences(getApplicationContext());
+        mUserPreferences.setMyStatus(false);
+        Log.d(Constants.SleepGuardTag,"Device Id: "+mUserPreferences.getMySleepStatus());
         new GcmRegistrationAsyncTask(this).execute();
+        context = getApplicationContext();
 
 //        mDisplay = (TextView) findViewById(R.id.display);
 //
@@ -117,8 +120,10 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 Log.d(Constants.SleepGuardTag, "SwitchListener");
                 if (isChecked) {
                     mBackgroundView.setImageResource(R.drawable.main_activity_background_night);
+                    mUserPreferences.setMyStatus(true);
                 } else {
                     mBackgroundView.setImageResource(R.drawable.main_activity_background);
+                    mUserPreferences.setMyStatus(false);
                 }
             }
         });
@@ -146,6 +151,31 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
         // we will set the listeners
         findViewById(R.id.testNotificationButton).setOnClickListener(handler);
+
+        findViewById(R.id.button_device_status).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(Constants.SleepGuardTag,"About to check device ID");
+                Log.d(Constants.SleepGuardTag,"Device Id: "+mUserPreferences.getMyDeviceId());
+                Toast.makeText(context, "Device Id: "+mUserPreferences.getMyDeviceId(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        findViewById(R.id.button_steep_status).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(Constants.SleepGuardTag,"About to Sleep status");
+                Log.d(Constants.SleepGuardTag,"Sleep Status: "+mUserPreferences.getMySleepStatus());
+                Toast.makeText(context, "Sleep Status: "+mUserPreferences.getMySleepStatus(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        findViewById(R.id.button_save_data).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 //        Intent mServiceIntent = new Intent(this, Voice.class);
 //        startService(mServiceIntent);
@@ -285,6 +315,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
                     // Persist the registration ID - no need to register again.
                     storeRegistrationId(context, regid);
+
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
                     // If there is an error, don't just keep trying to register.
@@ -316,6 +347,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         editor.putString(Constants.PROPERTY_REG_ID, regId);
         editor.putInt(Constants.PROPERTY_APP_VERSION, appVersion);
         editor.commit();
+        mUserPreferences.setMyDeviceId(regId);
     }
 
 
@@ -429,8 +461,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         mLastKnownLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
 //        Log.d(Constants.SleepGuardTag, String.valueOf(mLastKnownLocation.getLongitude()) + String.valueOf(mLastKnownLocation.getLatitude()));
-        Toast.makeText(this, "Location Updated",
-                Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(this, "Location Updated",Toast.LENGTH_SHORT).show();
     }
 
     protected void stopLocationUpdates() {
