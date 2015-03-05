@@ -1,7 +1,5 @@
 package com.example.vibhuyadav.sleepguard;
 
-import android.util.Log;
-
 /**
  * Created by WeiHuang on 3/3/2015.
  */
@@ -40,7 +38,7 @@ public class AudioWindow {
             bottom=tempNode;
         }
         num_of_nodes++;
-        if(isFull())
+        if(num_of_nodes>width)
             return pop();
         else
             return null;

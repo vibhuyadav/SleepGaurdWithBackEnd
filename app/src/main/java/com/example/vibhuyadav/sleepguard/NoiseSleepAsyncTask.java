@@ -26,14 +26,14 @@ public class NoiseSleepAsyncTask extends AsyncTask<String[], Void, String> {
             //Wei  :"https://stable-synapse-857.appspot.com/_ah/api/"
             sleepReceiverApi = builder.build();
         }
-        String regId=params[0][0];
+        String timeStamp=params[0][0];
         Log.d("params [0][0]",params[0][0]);
 
-        String timeStamp=params[0][1];
+        String regId=params[0][1];
         Log.d("params [0][1]",params[0][1]);
 
         try {
-            sleepReceiverApi.sendTimeStamp(regId,timeStamp).execute();
+            sleepReceiverApi.sendTimeStamp(timeStamp,regId).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }

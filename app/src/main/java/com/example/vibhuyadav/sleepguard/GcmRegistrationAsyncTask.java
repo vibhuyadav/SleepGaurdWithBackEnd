@@ -2,7 +2,6 @@ package com.example.vibhuyadav.sleepguard;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.example.vibhuyadav.sleepguard.backend.registration.Registration;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
