@@ -111,7 +111,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
         mUserPreferences = new UserPreferences(getApplicationContext());
         mUserPreferences.setMyStatus(false);
-        Log.d(Constants.SleepGuardTag,"Device Id: "+mUserPreferences.getMySleepStatus());
+        Log.d(Constants.SleepGuardTag,"Sleep Status: "+mUserPreferences.getMySleepStatus());
         new GcmRegistrationAsyncTask(this).execute();
         context = getApplicationContext();
 
@@ -266,6 +266,13 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         findViewById(R.id.button_save_data).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new UserEndpointsAsyncTask(context).execute();
+            }
+        });
+
+        findViewById(R.id.button_sendMessage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
@@ -415,6 +422,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
      * Stores the registration ID and app versionCode in the application's
      * shared preferences.
      */
+    /*
     private void registerInBackground() {
         new AsyncTask<Void, Void, String>() {
 
@@ -482,7 +490,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         editor.commit();
         mUserPreferences.setMyDeviceId(regId);
     }
-
+/*
 
     /**
      * @return Application's {@code SharedPreferences}.
@@ -495,6 +503,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     }
 
     // Starts the IntentService
+    /*
     public void onStartService(View v) {
         // Construct our Intent specifying the Service
         Intent i = new Intent(this, SleepGuardBackgroundService.class);
@@ -503,7 +512,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // Start the service
         startService(i);
     }
-
+*/
     // Setup the callback for when data is received from the service
     public void setupServiceReceiver() {
         mReceiverForTest = new SleepGuardServiceReceiver(new Handler());
@@ -593,8 +602,11 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     public void onLocationChanged(Location location) {
         mLastKnownLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        mUserPreferences.setMyLatitude(location.getLatitude());
+        mUserPreferences.setMyLongitude(location.getLongitude());
 //        Log.d(Constants.SleepGuardTag, String.valueOf(mLastKnownLocation.getLongitude()) + String.valueOf(mLastKnownLocation.getLatitude()));
     //    Toast.makeText(this, "Location Updated",Toast.LENGTH_SHORT).show();
+        new UserEndpointsAsyncTask(context).execute(Constants.USER_UPDATE_TASK);
     }
 
     protected void stopLocationUpdates() {

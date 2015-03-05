@@ -59,7 +59,7 @@ public class NoiseSleepRunnable implements Runnable {
                 LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
 //                Log.d("Start Time", Long.toString(audioWindow.getTimeStamp()));
                 String[] params={regId,Long.toString(audioWindow.getTimeStamp())};
-                new NoiseSleepAsyncTask().execute(params);
+                new NoiseSleepAsyncTask(context).execute(params);
                 isGetAudio = false;
             }
             synchronized (mLock) {

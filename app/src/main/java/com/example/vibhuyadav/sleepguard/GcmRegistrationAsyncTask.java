@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import dartmouth.edu.sleepguard.util.Constants;
+
 /**
  * Created by vibhuyadav on 2/16/15.
  */
@@ -34,7 +36,7 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
         if (regService == null) {
             Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     //.setRootUrl("https://stable-synapse-857.appspot.com/_ah/api/");
-                    .setRootUrl("https://praxis-practice-856.appspot.com/_ah/api/");
+                    .setRootUrl(Constants.SERVER_ADDRESS);
             // end of optional local run code
             //Vibhu:"https://praxis-practice-856.appspot.com/_ah/api/"
             //Wei  :"https://stable-synapse-857.appspot.com/_ah/api/"
@@ -48,6 +50,7 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
             }
             String regId = gcm.register(SENDER_ID);
             msg = regId;
+            new UserEndpointsAsyncTask(context).execute(Constants.USER_INSERT_TASK);
             mUserPreferences.setMyDeviceId(regId);
             // You should send the registration ID to your server over HTTP,
             // so it can use GCM/HTTP or CCS to send messages to your app.

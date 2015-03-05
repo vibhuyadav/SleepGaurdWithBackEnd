@@ -1,10 +1,16 @@
 package com.example.vibhuyadav.sleepguard;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -30,7 +36,9 @@ public class NotificationService extends Service {
     CircularImageView circularImageView;
     Button mCloseButton;
     int screenWidth;
+    public static final int NOTIFICATION_ID = 1;
     int screenHeight;
+    NotificationManager mNotificationManager;
 
     @Override public IBinder onBind(Intent intent) {
         // Not used
@@ -43,10 +51,34 @@ public class NotificationService extends Service {
 
     }
 
+    private void sendNotification() {
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        mNotificationManager = (NotificationManager)
+                this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, MainActivity.class), 0);
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle("SleepGuard")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText("Your Roomate is trying to sleep"))
+                        .setContentText("Your Roomate is trying to sleep")
+                        .setSound(soundUri);
+
+        mBuilder.setContentIntent(contentIntent);
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
+
+        //sendNotification();
 
         Point size = new Point();
         display.getSize(size);

@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
+import dartmouth.edu.sleepguard.util.Constants;
+
 /**
  * Created by Zohaib Akmal on 2015/2/14 0014.
  */
@@ -37,5 +39,8 @@ public class AlertReceiver extends BroadcastReceiver {
 
         int NOTIFICATION_REF=1;
         notificationManager.notify(NOTIFICATION_REF,notification);
+        Log.d(Constants.SleepGuardTag,"Calling Notfication Service");
+        Intent i = new Intent(context, NotificationService.class);
+        context.startService(i);
     }
 }
