@@ -5,22 +5,18 @@ package com.example.vibhuyadav.sleepguard;
  */
 
 import android.content.Context;
-        import android.os.AsyncTask;
+import android.os.AsyncTask;
 import android.util.Log;
-import android.util.Pair;
-        import android.widget.Toast;
 
-        import com.google.api.client.extensions.android.http.AndroidHttp;
-        import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-        import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-        import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
-        import java.io.IOException;
-        import java.util.Collections;
-        import java.util.List;
+import java.io.IOException;
 
-        import backend.sleepguard.vibhuyadav.example.com.usereEndpoint.UsereEndpoint;
-        import backend.sleepguard.vibhuyadav.example.com.usereEndpoint.model.User;
+import backend.sleepguard.vibhuyadav.example.com.usereEndpoint.UsereEndpoint;
+import backend.sleepguard.vibhuyadav.example.com.usereEndpoint.model.User;
 import dartmouth.edu.sleepguard.util.Constants;
 
 class UserEndpointsAsyncTask extends AsyncTask<String, Void, User> {
