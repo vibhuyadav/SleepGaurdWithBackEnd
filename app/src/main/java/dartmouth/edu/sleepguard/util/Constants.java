@@ -14,7 +14,7 @@ public class Constants {
 
 
     public final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    public static final String TAG = "SleepGaurd";
+    public static final String TAG = "SleepGuard";
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     public static final String PROPERTY_APP_VERSION = "appVersion";
