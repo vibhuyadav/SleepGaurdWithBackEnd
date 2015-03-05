@@ -6,6 +6,7 @@ package dartmouth.edu.sleepguard.util;
 public class Constants {
     public static final String SleepGuardTag = "Sleep Guard";
     public static final String SleepGuardBackGroundServiceTag = "Sleep Guard Background Service";
+    public static final String UserEndPointAsyncTaskTag = "UserEndPointAsyncTask";
 
     // Keys for storing activity state in the Bundle.
     public final static String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
@@ -38,6 +39,17 @@ public class Constants {
     public static final String SHARED_PREFERENCES_FILE = "UserPreferences";
     public static final String MY_SLEEP_STATUS = "MySleepStatus";
     public static final String MY_DEVICE_ID = "DeviceId";
+    public static final String MY_LONGITUDE= "LONGITUDE";
+    public static final String MY_LATITUDE = "LATITUDE";
+
+    public static final String USER_INSERT_TASK = "TASK_INSERT_USER";
+    public static final String USER_UPDATE_TASK = "USER_UPDATE_TASK";
+
+//    public static final String SERVER_ADDRESS = "http://10.31.248.113:8080/_ah/api/";
+//    public static final String MACHINE_ADDRESS = "http://10.31.248.113:8080/_ah/api/";
+
+    public static final String SERVER_ADDRESS = "https://praxis-practice-856.appspot.com/_ah/api/";
+    public static final String MACHINE_ADDRESS = "https://praxis-practice-856.appspot.com/_ah/api/";
 
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 }
