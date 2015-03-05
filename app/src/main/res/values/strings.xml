@@ -8,8 +8,10 @@
     <string name="AppName">Sleep Guard</string>
     <string name="TestNotificationButton">Test Notification</string>
     <string name="DisturbingNotification">You are disturbing someone\'s sleep</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="message_disturb">Your Roommate is Sleeping</string>
+
     <color name="notification_background">#FFECEDEE</color>
     <color name="black">#FF000000</color>
 </resources>
