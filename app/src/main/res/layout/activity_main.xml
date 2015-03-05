@@ -1,12 +1,5 @@
-<FrameLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:layout_alignBottom="@+id/textView"
-android:layout_alignParentLeft="true"
-android:layout_alignParentStart="true">
-<ImageView
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:adjustViewBounds="true"
@@ -15,25 +8,22 @@ android:layout_alignParentStart="true">
     android:src="@drawable/main_activity_background"
     android:layout_alignBottom="@+id/textView"
     android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true" />
+    android:layout_alignParentStart="true"
+    tools:context=".MainActivity">
 
-<RelativeLayout  android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:transitionGroup="false">
+    <FrameLayout
+        android:id="@+id/fullscreen_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true">
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/SleepToogleOn"
-        android:id="@+id/sleepToogle"
-        android:textOff="No"
-        android:textOn="Yes"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:checked="false" />
+        <ImageView
+            android:id="@+id/backgroundImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/main_activity_background"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,13 +35,46 @@ android:layout_alignParentStart="true">
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/TestNotificationButton"
-        android:id="@+id/testNotificationButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:transitionGroup="false"
+            tools:context=".MainActivity">
+
+            <Switch
+                android:id="@+id/sleepToogle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:checked="false"
+                android:text="@string/SleepToogleOn"
+                android:textOff="No"
+                android:textOn="Yes" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:text="@string/AppName"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Button
+                android:id="@+id/testNotificationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/TestNotificationButton" />
+
+
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -82,6 +105,6 @@ android:layout_alignParentStart="true">
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-</RelativeLayout>
-
+        </RelativeLayout>
+    </FrameLayout>
 </FrameLayout>
