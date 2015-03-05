@@ -23,6 +23,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vibhuyadav.sleepguard.backend.registration.Registration;
+import com.example.vibhuyadav.sleepguard.util.SystemUiHider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -54,7 +56,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private Switch mSwitch;
     private ImageView mBackgroundView;
     public SleepGuardServiceReceiver mReceiverForTest;
     private GoogleApiClient mGoogleApiClient;
@@ -64,7 +65,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     boolean mRequestingLocationUpdates;
 
     private boolean notificationActive = false;
-
+    UserPreferences mUserPreferences;
     TextView mDisplay;
     GoogleCloudMessaging gcm;
     AtomicInteger msgId = new AtomicInteger();
@@ -76,12 +77,107 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 //    Project Number: 530139348531
 //    AIzaSyA4leitlYlOE5vf-ULWGyT4R2utolTRekM
 
+    /**
+     * Whether or not the system UI should be auto-hidden after
+     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
+     */
+    private static final boolean AUTO_HIDE = true;
+
+    /**
+     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
+     * user interaction before hiding the system UI.
+     */
+    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+
+    /**
+     * If set, will toggle the system UI visibility upon interaction. Otherwise,
+     * will show the system UI visibility upon interaction.
+     */
+    private static final boolean TOGGLE_ON_CLICK = true;
+
+    /**
+     * The flags to pass to {@link SystemUiHider#getInstance}.
+     */
+    private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
+
+    /**
+     * The instance of the {@link SystemUiHider} for this activity.
+     */
+    private SystemUiHider mSystemUiHider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mUserPreferences = new UserPreferences(getApplicationContext());
+        mUserPreferences.setMyStatus(false);
+        Log.d(Constants.SleepGuardTag,"Device Id: "+mUserPreferences.getMySleepStatus());
         new GcmRegistrationAsyncTask(this).execute();
+        context = getApplicationContext();
+
+        final View controlsView;
+        controlsView = findViewById(R.id.textView);
+        final View contentView;
+        contentView = findViewById(R.id.backgroundImage);
+
+        // Set up an instance of SystemUiHider to control the system UI for
+        // this activity.
+        mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
+        mSystemUiHider.setup();
+        mSystemUiHider
+                .setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
+                    // Cached values.
+                    int mControlsHeight;
+                    int mShortAnimTime;
+
+                    @Override
+                    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+                    public void onVisibilityChange(boolean visible) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+                            // If the ViewPropertyAnimator API is available
+                            // (Honeycomb MR2 and later), use it to animate the
+                            // in-layout UI controls at the bottom of the
+                            // screen.
+                            if (mControlsHeight == 0) {
+                                mControlsHeight = controlsView.getHeight();
+                            }
+                            if (mShortAnimTime == 0) {
+                                mShortAnimTime = getResources().getInteger(
+                                        android.R.integer.config_shortAnimTime);
+                            }
+                            controlsView.animate()
+                                    .translationY(visible ? 0 : mControlsHeight)
+                                    .setDuration(mShortAnimTime);
+                        } else {
+                            // If the ViewPropertyAnimator APIs aren't
+                            // available, simply show or hide the in-layout UI
+                            // controls.
+                            controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
+                        }
+
+                        if (visible && AUTO_HIDE) {
+                            // Schedule a hide().
+                            delayedHide(AUTO_HIDE_DELAY_MILLIS);
+                        }
+                    }
+                });
+
+        // Set up the user interaction to manually show or hide the system UI.
+        contentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TOGGLE_ON_CLICK) {
+                    mSystemUiHider.toggle();
+                } else {
+                    mSystemUiHider.show();
+                }
+            }
+        });
+
+        // Upon interacting with UI controls, delay any scheduled hide()
+        // operations to prevent the jarring behavior of controls going away
+        // while interacting with the UI.
+        findViewById(R.id.testNotificationButton).setOnTouchListener(mDelayHideTouchListener);
 
 //        mDisplay = (TextView) findViewById(R.id.display);
 //
@@ -108,7 +204,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 //        testObject.put("foo", "bar");
 //        testObject.saveInBackground();
 
-        mSwitch = (Switch) findViewById(R.id.sleepToogle);
+        Switch mSwitch = (Switch) findViewById(R.id.sleepToogle);
         mBackgroundView = (ImageView) findViewById(R.id.backgroundImage);
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -117,8 +213,10 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 Log.d(Constants.SleepGuardTag, "SwitchListener");
                 if (isChecked) {
                     mBackgroundView.setImageResource(R.drawable.main_activity_background_night);
+                    mUserPreferences.setMyStatus(true);
                 } else {
                     mBackgroundView.setImageResource(R.drawable.main_activity_background);
+                    mUserPreferences.setMyStatus(false);
                 }
             }
         });
@@ -147,9 +245,34 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // we will set the listeners
         findViewById(R.id.testNotificationButton).setOnClickListener(handler);
 
+        findViewById(R.id.button_device_status).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(Constants.SleepGuardTag,"About to check device ID");
+                Log.d(Constants.SleepGuardTag,"Device Id: "+mUserPreferences.getMyDeviceId());
+                Toast.makeText(context, "Device Id: "+mUserPreferences.getMyDeviceId(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        findViewById(R.id.button_steep_status).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(Constants.SleepGuardTag,"About to Sleep status");
+                Log.d(Constants.SleepGuardTag,"Sleep Status: "+mUserPreferences.getMySleepStatus());
+                Toast.makeText(context, "Sleep Status: "+mUserPreferences.getMySleepStatus(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        findViewById(R.id.button_save_data).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 //        Intent mServiceIntent = new Intent(this, Voice.class);
 //        startService(mServiceIntent);
-        NoiseSleepRunnable noiseSleepRunnable=new NoiseSleepRunnable(this.getApplicationContext());
+        NoiseSleepRunnable noiseSleepRunnable=new NoiseSleepRunnable(this.getApplicationContext(),getRegistrationId(context));
         Thread thread=new Thread(noiseSleepRunnable);
         thread.start();
 
@@ -157,8 +280,48 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         AlertReceiver alertReceiver=new AlertReceiver();
         LocalBroadcastManager.getInstance(this).registerReceiver(alertReceiver,alterIntentFilter);
 
+    }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
 
+        // Trigger the initial hide() shortly after the activity has been
+        // created, to briefly hint to the user that UI controls
+        // are available.
+        delayedHide(100);
+    }
+
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (AUTO_HIDE) {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
+            return false;
+        }
+    };
+
+    Handler mHideHandler = new Handler();
+    Runnable mHideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mSystemUiHider.hide();
+        }
+    };
+
+    /**
+     * Schedules a call to hide() in [delay] milliseconds, canceling any
+     * previously scheduled calls.
+     */
+    private void delayedHide(int delayMillis) {
+        mHideHandler.removeCallbacks(mHideRunnable);
+        mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
 
@@ -285,6 +448,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
                     // Persist the registration ID - no need to register again.
                     storeRegistrationId(context, regid);
+
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
                     // If there is an error, don't just keep trying to register.
@@ -316,6 +480,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         editor.putString(Constants.PROPERTY_REG_ID, regId);
         editor.putInt(Constants.PROPERTY_APP_VERSION, appVersion);
         editor.commit();
+        mUserPreferences.setMyDeviceId(regId);
     }
 
 
@@ -429,8 +594,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         mLastKnownLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
 //        Log.d(Constants.SleepGuardTag, String.valueOf(mLastKnownLocation.getLongitude()) + String.valueOf(mLastKnownLocation.getLatitude()));
-        Toast.makeText(this, "Location Updated",
-                Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(this, "Location Updated",Toast.LENGTH_SHORT).show();
     }
 
     protected void stopLocationUpdates() {

@@ -14,7 +14,9 @@
         <init-param>
             <param-name>services</param-name>
             <param-value>com.example.vibhuyadav.sleepguard.backend.RegistrationEndpoint,
-                com.example.vibhuyadav.sleepguard.backend.MessagingEndpoint
+                com.example.vibhuyadav.sleepguard.backend.MessagingEndpoint,
+                com.example.vibhuyadav.sleepguard.backend.UserEndPoint
+                com.example.vibhuyadav.sleepguard.backend.SleepReceiverEndpoint
             </param-value>
         </init-param>
     </servlet>
