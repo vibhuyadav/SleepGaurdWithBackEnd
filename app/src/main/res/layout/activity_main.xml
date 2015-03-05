@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:adjustViewBounds="true"
     android:scaleType="centerCrop"
-    android:id="@+id/backgroundImage"
+    android:id="@+id/backgroundImage1"
     android:src="@drawable/main_activity_background"
     android:layout_alignBottom="@+id/textView"
     android:layout_alignParentLeft="true"
@@ -24,16 +24,6 @@
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/main_activity_background"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/AppName"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
