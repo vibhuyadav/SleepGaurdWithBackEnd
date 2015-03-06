@@ -4,9 +4,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationStatusCodes;
-import com.google.android.gms.location.LocationClient.OnRemoveGeofencesResultListener;
 
 import android.app.Activity;
 import android.app.PendingIntent;

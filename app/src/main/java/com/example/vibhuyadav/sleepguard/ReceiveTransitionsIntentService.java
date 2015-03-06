@@ -12,7 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
-import com.google.android.gms.*;
+import com.google.android.gms.location.*;
 
 import java.util.List;
 
