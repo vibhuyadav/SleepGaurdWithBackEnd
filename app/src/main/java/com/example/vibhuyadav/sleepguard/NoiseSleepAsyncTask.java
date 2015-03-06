@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.vibhuyadav.sleepguard.backend.messaging.Messaging;
+import backend.sleepguard.vibhuyadav.example.com.messaging.Messaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -52,7 +52,7 @@ public class NoiseSleepAsyncTask extends AsyncTask<String[], Void, String> {
         Log.d("params [0][1]",params[0][1]);
 
         try {
-            sleepReceiverApi.messagingEndpoint().sendMessage(timeStamp).execute();
+            sleepReceiverApi.sendMessage(timeStamp).execute();
             //sleepReceiverApi.(regId,timeStamp).execute();
         } catch (IOException e) {
             e.printStackTrace();
