@@ -19,7 +19,7 @@ import backend.sleepguard.vibhuyadav.example.com.usereEndpoint.UsereEndpoint;
 import backend.sleepguard.vibhuyadav.example.com.usereEndpoint.model.User;
 import dartmouth.edu.sleepguard.util.Constants;
 
-class UserEndpointsAsyncTask extends AsyncTask<String, Void, User> {
+public class UserEndpointsAsyncTask extends AsyncTask<String, Void, User> {
     private static UsereEndpoint myApiService = null;
     private Context context;
     UserPreferences mUserPreferences;
