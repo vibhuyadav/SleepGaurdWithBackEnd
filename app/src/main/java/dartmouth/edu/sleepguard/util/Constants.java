@@ -52,4 +52,6 @@ public class Constants {
     public static final String MACHINE_ADDRESS = "https://praxis-practice-856.appspot.com/_ah/api/";
 
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+
+
 }
