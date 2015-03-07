@@ -150,6 +150,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
         final View controlsView;
         controlsView = findViewById(R.id.textView);
+        final View controlsButtonView;
+        controlsButtonView = findViewById(R.id.testNotificationButton);
         final View contentView;
         contentView = findViewById(R.id.backgroundImage);
 
@@ -204,11 +206,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                             controlsView.animate()
                                     .translationY(visible ? 0 : mControlsHeight)
                                     .setDuration(mShortAnimTime);
+                            controlsButtonView.animate()
+                                    .translationY(visible ? 0 : mControlsHeight)
+                                    .setDuration(mShortAnimTime);
                         } else {
                             // If the ViewPropertyAnimator APIs aren't
                             // available, simply show or hide the in-layout UI
                             // controls.
                             controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
+                            controlsButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
                         }
 
                         if (visible && AUTO_HIDE) {
