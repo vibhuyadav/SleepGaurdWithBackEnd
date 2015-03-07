@@ -1,16 +1,20 @@
 package com.example.vibhuyadav.sleepguard;
 
 
+import android.annotation.TargetApi;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,6 +30,7 @@ public class GcmIntentService extends IntentService {
     NotificationCompat.Builder builder;
 
     public GcmIntentService() {
+
         super("GcmIntentService");
     }
 
@@ -60,17 +65,17 @@ public class GcmIntentService extends IntentService {
                 // If it's a regular GCM message, do some work.
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // This loop represents the service doing some work.
-//                for (int i = 0; i < 5; i++) {
-//                    Log.i(TAG, "Working... " + (i + 1)
-//                            + "/5 @ " + SystemClock.elapsedRealtime());
-//                    try {
-//                        Thread.sleep(5000);
-//                    } catch (InterruptedException e) {
-//                    }
-//                }
-//                Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
+                for (int i = 0; i < 5; i++) {
+                    Log.i(TAG, "Working... " + (i + 1)
+                            + "/5 @ " + SystemClock.elapsedRealtime());
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                    }
+                }
+                Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                //sendNotification("Please Do not Disturb: " + extras.getString("message"));
+                sendNotification("Please Do not Disturb: " + extras.getString("message"));
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -80,26 +85,30 @@ public class GcmIntentService extends IntentService {
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void sendNotification(final String message) {
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        mNotificationManager = (NotificationManager)
-                this.getSystemService(Context.NOTIFICATION_SERVICE);
+        String svcName=Context.NOTIFICATION_SERVICE;
+        NotificationManager notificationManager;
+        notificationManager = (NotificationManager) this.getApplicationContext().getSystemService(svcName);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), 0);
+        int icon=R.drawable.abc_ic_menu_paste_mtrl_am_alpha;
+        String tickerText="Noise Alert";
+        long when=System.currentTimeMillis();
+        Notification.Builder builder=new Notification.Builder(this.getApplicationContext());
+        builder.setSmallIcon(R.drawable.ic_launcher)
+                .setContentText(message)
+                .setContentTitle("Noise Alert!!!")
+                .setSound(soundUri)
+                .setWhen(when);
+        Notification notification=builder.build();
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("SleepGuard")
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(message))
-                        .setContentText(message)
-                        .setSound(soundUri);
-
-        mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        int NOTIFICATION_REF=1;
+        notificationManager.notify(NOTIFICATION_REF,notification);
+        Log.d(Constants.SleepGuardTag,"Calling Notfication Service");
+        Intent i = new Intent(this.getApplicationContext(), NotificationService.class);
+        this.getApplicationContext().startService(i);
 
 //        DisturbingNotification disturbingNotification=new DisturbingNotification();
 //        FragmentManager fm = getFragmentManager();

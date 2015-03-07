@@ -7,6 +7,8 @@ import com.example.vibhuyadav.sleepguard.backend.registration.Registration;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -35,7 +37,13 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
         if (regService == null) {
             Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     //.setRootUrl("https://stable-synapse-857.appspot.com/_ah/api/");
-                    .setRootUrl(Constants.SERVER_ADDRESS);
+                    .setRootUrl(Constants.SERVER_ADDRESS)
+                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                @Override
+                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                    abstractGoogleClientRequest.setDisableGZipContent(true);
+                }
+            });
             // end of optional local run code
             //Vibhu:"https://praxis-practice-856.appspot.com/_ah/api/"
             //Wei  :"https://stable-synapse-857.appspot.com/_ah/api/"

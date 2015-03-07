@@ -53,7 +53,7 @@ public class NoiseSleepAsyncTask extends AsyncTask<String[], Void, String> {
         Log.d("params [0][1]",params[0][1]);
 
         try {
-            sleepReceiverApi.sendMessage(timeStamp).execute();
+            sleepReceiverApi.messagingEndpoint().sendMessage(timeStamp).execute();
             //sleepReceiverApi.(regId,timeStamp).execute();
         } catch (IOException e) {
             e.printStackTrace();

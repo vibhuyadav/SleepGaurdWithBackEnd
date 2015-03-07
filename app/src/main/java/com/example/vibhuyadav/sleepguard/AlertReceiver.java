@@ -20,7 +20,7 @@ public class AlertReceiver extends BroadcastReceiver {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void onReceive(Context context, Intent intent) {
         Log.d("Receiver", "Alert!!!!!!!!!!!");
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        /*Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         String svcName=Context.NOTIFICATION_SERVICE;
         NotificationManager notificationManager;
@@ -41,6 +41,6 @@ public class AlertReceiver extends BroadcastReceiver {
         notificationManager.notify(NOTIFICATION_REF,notification);
         Log.d(Constants.SleepGuardTag,"Calling Notfication Service");
         Intent i = new Intent(context, NotificationService.class);
-        context.startService(i);
+        context.startService(i);*/
     }
 }
