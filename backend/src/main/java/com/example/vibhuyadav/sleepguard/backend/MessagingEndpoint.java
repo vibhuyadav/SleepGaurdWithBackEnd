@@ -17,9 +17,14 @@ import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.cmd.Query;
 
+import org.json.simple.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
@@ -143,6 +148,7 @@ public class MessagingEndpoint {
 
         Query<User> query = ofy().load().type(User.class);
 
+        List<String> candidateDevices = new ArrayList<String>();
 
         List<User> records = new ArrayList<User>();
         QueryResultIterator<User> iterator = query.iterator();
@@ -163,4 +169,38 @@ public class MessagingEndpoint {
         }
     }
 
+    public void sendRequest(Request request) throws IOException {
+        Query<User> query = ofy().load().type(User.class);
+
+        List<String> candidateDevices = new ArrayList<String>();
+
+        List<User> records = new ArrayList<User>();
+        QueryResultIterator<User> iterator = query.iterator();
+        int num = 0;
+        while (iterator.hasNext()) {
+            records.add(iterator.next());
+            /*if (count != null) {
+                num++;
+                if (num == count) break;
+            }*/
+
+        }
+
+        for (User user : records) {
+            if (user.getStatus() == false) {
+                if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
+                    candidateDevices.add(user.mDeviceId);
+                }
+
+            }
+        }
+
+
+        MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
+        for (String regId:candidateDevices){
+            messagingEndpoint.sendMessageToDevice("Shut the fuck up", regId);
+        }
+
+        System.out.println("inSendTimeStampFunction");
+    }
 }

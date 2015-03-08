@@ -4,21 +4,28 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+
+
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.google.api.client.json.Json;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
 import backend.sleepguard.vibhuyadav.example.com.messaging.Messaging;
+import backend.sleepguard.vibhuyadav.example.com.messaging.model.Request;
 import dartmouth.edu.sleepguard.util.Constants;
 
 /**
  * Created by WeiHuang on 3/3/2015.
  */
 public class NoiseSleepAsyncTask extends AsyncTask<String[], Void, String> {
-    private static Messaging sleepReceiverApi = null;
+    private static Messaging messagingAPI = null;
     Context mContext;
     UserPreferences mUserPreferences;
 
@@ -30,7 +37,7 @@ public class NoiseSleepAsyncTask extends AsyncTask<String[], Void, String> {
 
     @Override
     protected String doInBackground(String[]... params) {
-        if (sleepReceiverApi == null) {
+        if (messagingAPI == null) {
             Messaging.Builder builder = new Messaging.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     .setRootUrl(Constants.MACHINE_ADDRESS)
                     .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
@@ -43,20 +50,45 @@ public class NoiseSleepAsyncTask extends AsyncTask<String[], Void, String> {
             // end of optional local run code
             //Vibhu:"https://praxis-practice-856.appspot.com/_ah/api/"
             //Wei  :"https://stable-synapse-857.appspot.com/_ah/api/"
-            sleepReceiverApi = builder.build();
+            messagingAPI = builder.build();
         }
         String regId=params[0][0];
         Log.d("params [0][0]",params[0][0]);
 
         String timeStamp=params[0][1];
+        Long timeStampLong = Long.valueOf(timeStamp);
         Log.d("params [0][1]",params[0][1]);
 
+        Request request = new Request();
+        request.setDeviceId(mUserPreferences.getMyDeviceId());
+        request.setLatitude(mUserPreferences.getMyLatitude());
+        request.setLongitude(mUserPreferences.getMyLongitude());
+        request.setTimeStamp(timeStampLong);
+/*
+        JSONObject jsonObject = new JSONObject();
         try {
-            sleepReceiverApi.messagingEndpoint().sendMessage(timeStamp).execute();
-            //sleepReceiverApi.(regId,timeStamp).execute();
+            jsonObject.put("timeStamp", timeStamp);
+            jsonObject.put("longitude", mUserPreferences.getMyLongitude());
+            jsonObject.put("latitude", mUserPreferences.getMyLatitude());
+            jsonObject.put("regID", mUserPreferences.getMyDeviceId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+*/
+        try {
+            messagingAPI.messagingEndpoint().sendRequest(request);
+            //messagingAPI.(regId,timeStamp).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+      /*  try {
+            messagingAPI.messagingEndpoint().sendRequest(jsonObject).execute();
+            //messagingAPI.(regId,timeStamp).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
         return "Successful";
     }
 }
