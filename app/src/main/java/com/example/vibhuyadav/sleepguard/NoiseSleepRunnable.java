@@ -58,7 +58,10 @@ public class NoiseSleepRunnable implements Runnable {
                 Intent localIntent = new Intent(Constants.NOISE_ALERT);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
 //                Log.d("Start Time", Long.toString(audioWindow.getTimeStamp()));
-                String[] params={regId,Long.toString(audioWindow.getTimeStamp())};
+                String[] params={regId
+                        ,Long.toString(audioWindow.getTimeStamp())
+                        ,Integer.toString(audioWindow.getNumOverThreshold())
+                        ,Integer.toString(audioWindow.getAverageAmplitude())};
                 new NoiseSleepAsyncTask(context).execute(params);
                 isGetAudio = false;
             }

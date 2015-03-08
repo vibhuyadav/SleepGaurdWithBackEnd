@@ -328,7 +328,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         findViewById(R.id.button_save_data).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new UserEndpointsAsyncTask(context).execute();
+                new UserEndpointsAsyncTask(context).execute(Constants.USER_INSERT_TASK);
             }
         });
 

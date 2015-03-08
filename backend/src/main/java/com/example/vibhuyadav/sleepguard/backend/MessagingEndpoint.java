@@ -46,8 +46,9 @@ public class MessagingEndpoint {
      *
      * @param message The message to send
      */
-    @ApiMethod(name = "sendMessage")
+
     public void sendMessage(@Named("message") String message) throws IOException {
+        log.info("In Send Message: "+message);
         if (message == null || message.trim().length() == 0) {
             log.warning("Not sending message because it is empty");
             return;
