@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import backend.sleepguard.vibhuyadav.example.com.responseEndpoint.model.Response;
 import dartmouth.edu.sleepguard.util.Constants;
 
 
@@ -27,10 +28,12 @@ public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
+    UserPreferences mUserPreferences;
 
     public GcmIntentService() {
 
         super("GcmIntentService");
+
     }
 
     public static final String TAG = "GCM Demo";
@@ -38,6 +41,7 @@ public class GcmIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        mUserPreferences = new UserPreferences(this.getApplication().getApplicationContext());
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
         // The getMessageType() intent parameter must be the intent you received
@@ -73,8 +77,17 @@ public class GcmIntentService extends IntentService {
 //                    } catch (InterruptedException e) {
 //                    }
 //                }
-                Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
-                // Post notification of received message.
+            }
+            Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
+            // Post notification of received message.
+            if (extras.getString("message_type").equals("request")){
+                Response response = new Response();
+                response.setMDeviceId(mUserPreferences.getMyDeviceId());
+                response.setRequestId(extras.getString("request"));
+                response.setAverage(mUserPreferences.getmAverage());
+                new ResponseEndpointsAsyncTask(this.getApplicationContext()).execute(response);
+            }
+            if (extras.getString("message_type").equals("response")){
                 sendNotification("Please Do not Disturb: " + extras.getString("message"));
             }
         }
