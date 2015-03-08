@@ -38,7 +38,7 @@ public class RequestEndpoint {
      */
 
     @ApiMethod(name = "listRequest")
-    public CollectionResponse<Request> listResponse(@Nullable @Named("cursor") String cursorString,
+    public CollectionResponse<Request> listRequest(@Nullable @Named("cursor") String cursorString,
                                                      @Nullable @Named("count") Integer count) {
 
         Query<Request> query = ofy().load().type(Request.class);
@@ -72,8 +72,8 @@ public class RequestEndpoint {
      * @param request The object to be added.
      * @return The object to be added.
      */
-    @ApiMethod(name = "insertResponse")
-    public Request insertResponse(Request request) throws ConflictException {
+    @ApiMethod(name = "insertRequest")
+    public Request insertRequest(Request request) throws ConflictException {
 //If if is not null, then check if it exists. If yes, throw an Exception
 //that it is already present
 //Since our @Id field is a Long, Objectify will generate a unique value for us
@@ -87,8 +87,8 @@ public class RequestEndpoint {
      * @param request The object to be added.
      * @return The object to be updated.
      */
-    @ApiMethod(name = "updateResponse")
-    public Request updateResponse(Request request)throws NotFoundException {
+    @ApiMethod(name = "updateRequest")
+    public Request updateRequest(Request request)throws NotFoundException {
         if (findRecord(request.getDeviceId()) == null) {
             throw new NotFoundException("Request Record does not exist");
         }
@@ -100,8 +100,8 @@ public class RequestEndpoint {
      * This deletes an existing <code>Request</code> object.
      * @param mDeviceId The id of the object to be deleted.
      */
-    @ApiMethod(name = "removeResponse")
-    public void removeResponse(@Named("mDeviceId") String mDeviceId) throws NotFoundException {
+    @ApiMethod(name = "removeRequest")
+    public void removeRequest(@Named("mDeviceId") String mDeviceId) throws NotFoundException {
         Request record = findRecord(mDeviceId);
         if(record == null) {
             throw new NotFoundException("Request Record does not exist");

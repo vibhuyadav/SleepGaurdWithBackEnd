@@ -8,19 +8,9 @@ import com.googlecode.objectify.annotation.Id;
  */
 @Entity
 public class Request {
-    @Id
-    Long requestId;
-    String deviceId;
+    @Id String deviceId;
     Double longitude;
     Double latitude;
-
-    public Long getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(Long requestId) {
-        this.requestId = requestId;
-    }
 
     public String getDeviceId() {
         return deviceId;
