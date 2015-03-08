@@ -13,8 +13,12 @@ import com.google.android.gcm.server.Sender;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.QueryResultIterator;
+import com.googlecode.objectify.cmd.Query;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -83,4 +87,80 @@ public class MessagingEndpoint {
             }
         }
     }
+
+    public void sendMessageToDevice(@Named("message") String message, @Named("regId") String regId) throws IOException {
+        log.info("In Send sendMessageToDevice - Message: "+message+", RegID: "+regId);
+        if (message == null || message.trim().length() == 0) {
+            log.warning("Not sending message because it is empty");
+            return;
+        }
+        // crop longer messages
+        if (message.length() > 1000) {
+            message = message.substring(0, 1000) + "[...]";
+        }
+        Sender sender = new Sender(API_KEY);
+        Message msg = new Message.Builder().addData("message", message)
+                    .addData("field1", "field")
+                    .addData("field2", "field")
+                    .build();
+        Result result = sender.send(msg, regId, 5);
+        if (result.getMessageId() != null) {
+            log.info("Message sent to " + regId);
+            String canonicalRegId = result.getCanonicalRegistrationId();
+            if (canonicalRegId != null) {
+                // if the regId changed, we have to update the datastore
+                log.info("Registration Id changed for " + regId + " updating to " + canonicalRegId);
+                /*record.setRegId(canonicalRegId);
+                ofy().save().entity(record).now();*/
+            }
+        } else {
+            String error = result.getErrorCodeName();
+            if (error.equals(Constants.ERROR_NOT_REGISTERED)) {
+                log.warning("Registration Id " + regId + " no longer registered with GCM, removing from datastore");
+                // if the device is no longer registered with Gcm, remove it from the datastore
+                //ofy().delete().entity(record).now();
+            } else {
+                log.warning("Error when sending message : " + error);
+            }
+        }
+    }
+
+    public void sendMessageToAwakeDevices(@Named("message") String message) throws IOException {
+        log.info("In Send sendMessageToAwakeDevices - Message: " + message);
+        if (message == null || message.trim().length() == 0) {
+            log.warning("Not sending message because it is empty");
+            return;
+        }
+        // crop longer messages
+        if (message.length() > 1000) {
+            message = message.substring(0, 1000) + "[...]";
+        }
+        Sender sender = new Sender(API_KEY);
+        Message msg = new Message.Builder().addData("message", message)
+                .addData("field1", "field")
+                .addData("field2", "field")
+                .build();
+
+        Query<User> query = ofy().load().type(User.class);
+
+
+        List<User> records = new ArrayList<User>();
+        QueryResultIterator<User> iterator = query.iterator();
+        int num = 0;
+        while (iterator.hasNext()) {
+            records.add(iterator.next());
+            /*if (count != null) {
+                num++;
+                if (num == count) break;
+            }*/
+
+        }
+
+        for (User user : records) {
+            if (user.getStatus() == false) {
+                sendMessageToDevice("Shut the fuck up", user.getMyId());
+            }
+        }
+    }
+
 }
