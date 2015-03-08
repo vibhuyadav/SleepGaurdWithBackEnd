@@ -332,12 +332,12 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             }
         });
 
-//        findViewById(R.id.button_sendMessage).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        findViewById(R.id.button_sendMessage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 //        Intent mServiceIntent = new Intent(this, Voice.class);
 //        startService(mServiceIntent);

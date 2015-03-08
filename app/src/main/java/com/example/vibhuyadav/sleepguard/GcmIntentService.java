@@ -49,6 +49,7 @@ public class GcmIntentService extends IntentService {
 //        dialogIntent.putExtra("servermessage", extras);
 //        getApplication().startActivity(dialogIntent);
 
+
         if (!extras.isEmpty() && !extras.isEmpty()) {  // has effect of unparcelling Bundle
             /*
              * Filter messages based on message type. Since it is likely that GCM will be

@@ -17,6 +17,18 @@ public class UserPreferences {
     Boolean mSleepStatus;
     String mDeviceId;
 
+    public Double getmAverage() {
+        return (double) sharedPref.getFloat(Constants.MY_AVERAGE, 0.0f);
+    }
+
+    public void setmAverage(Double mAverage) {
+        editor = sharedPref.edit();
+        editor.putFloat(Constants.MY_AVERAGE, mAverage.floatValue());
+        editor.commit();
+    }
+
+    Double mAverage;
+
     public UserPreferences (Context context){
         sharedPref = context.getSharedPreferences(Constants.SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
     }
