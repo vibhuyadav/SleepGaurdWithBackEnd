@@ -681,6 +681,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         super.onDestroy();
         cancelNotification(0);
         stopLocationUpdates();
+
     }
 
     @Override
