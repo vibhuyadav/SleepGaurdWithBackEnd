@@ -1,17 +1,11 @@
 package com.example.vibhuyadav.sleepguard;
 
 import android.annotation.TargetApi;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-
-import dartmouth.edu.sleepguard.util.Constants;
 
 /**
  * Created by Zohaib Akmal on 2015/2/14 0014.

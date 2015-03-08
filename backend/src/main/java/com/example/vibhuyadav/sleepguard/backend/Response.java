@@ -4,6 +4,8 @@ package com.example.vibhuyadav.sleepguard.backend;
  * Created by zohaibakmal on 3/4/2015.
  */
 
+import com.google.api.server.spi.config.AnnotationBoolean;
+import com.google.api.server.spi.config.ApiResourceProperty;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -14,6 +16,7 @@ public class Response {
     @Id Long id;
     String mDeviceId;
     Long mTimeStamp;
+    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     @Parent Key<Request> parentRequest;
 
     public Key<Request> getParentRequest() {

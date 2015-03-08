@@ -31,12 +31,12 @@ public class UserEndpointsAsyncTask extends AsyncTask<String, Void, User> {
 
     @Override
     protected User doInBackground(String... taskType) {
-        if(myApiService == null) { // Only do this once
+        if (myApiService == null) { // Only do this once
             UsereEndpoint.Builder builder = new UsereEndpoint.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
-// options for running against local devappserver
-// - 10.0.2.2 is localhost's IP address in Android emulator
-// - turn off compression when running against local devappserver
+                    // options for running against local devappserver
+                    // - 10.0.2.2 is localhost's IP address in Android emulator
+                    // - turn off compression when running against local devappserver
                     .setRootUrl(Constants.MACHINE_ADDRESS)
                     .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                         @Override
@@ -44,7 +44,7 @@ public class UserEndpointsAsyncTask extends AsyncTask<String, Void, User> {
                             abstractGoogleClientRequest.setDisableGZipContent(true);
                         }
                     });
-// end options for devappserver
+                    // end options for devappserver
 
             myApiService = builder.build();
         }
@@ -55,7 +55,7 @@ public class UserEndpointsAsyncTask extends AsyncTask<String, Void, User> {
         mUser.setLatitude(mUserPreferences.getMyLatitude());
         mUser.setLongitude(mUserPreferences.getMyLongitude());
 
-        if (taskType[0].equals(Constants.USER_INSERT_TASK)){
+        if (taskType[0].equals(Constants.USER_INSERT_TASK)) {
             try {
                 //return myApiService.listUser().execute().getItems();
 
@@ -67,13 +67,11 @@ public class UserEndpointsAsyncTask extends AsyncTask<String, Void, User> {
                 Log.d(Constants.UserEndPointAsyncTaskTag, e.getMessage());
                 return null;
             }
-        }
-
-        else if(taskType[0].equals(Constants.USER_UPDATE_TASK)){
+        } else if (taskType[0].equals(Constants.USER_UPDATE_TASK)) {
             try {
                 //return myApiService.listUser().execute().getItems();
 
-                Log.d(Constants.UserEndPointAsyncTaskTag, "About to Updatee");
+                Log.d(Constants.UserEndPointAsyncTaskTag, "About to Update");
                 User temp;
                 temp = myApiService.updateUser(mUser).execute();
                 return temp;
@@ -102,8 +100,8 @@ public class UserEndpointsAsyncTask extends AsyncTask<String, Void, User> {
 
     @Override
     protected void onPostExecute(User result) {
-            Log.d(Constants.UserEndPointAsyncTaskTag, "in Post Execute");
-   //         Toast.makeText(context, result.getDeviceId() + " : " + result.getStatus(), Toast.LENGTH_LONG).show();
+        Log.d(Constants.UserEndPointAsyncTaskTag, "in Post Execute");
+        //         Toast.makeText(context, result.getDeviceId() + " : " + result.getStatus(), Toast.LENGTH_LONG).show();
 
     }
 }
