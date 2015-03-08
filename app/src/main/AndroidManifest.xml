@@ -36,31 +36,43 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.example.vibhuyadav.sleepguard.notifications" />
+
                 <category android:name="com.example.vibhuyadav.sleepguard" />
             </intent-filter>
         </receiver>
 
         <service android:name="com.example.vibhuyadav.sleepguard.GcmIntentService" />
+        <service android:name="com.example.vibhuyadav.sleepguard.GeofenceTransitionsIntentService" />
 
-            <activity
-                android:name="com.example.vibhuyadav.sleepguard.SplashScreenActivity"
-                android:label="@string/app_name" >
-                <intent-filter>
-                    <action android:name="android.intent.action.MAIN" />
-                    <category android:name="android.intent.category.LAUNCHER" />
-                </intent-filter>
-            </activity>
+        <activity
+            android:name="com.example.vibhuyadav.sleepguard.SplashScreenActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
-            <activity
-                android:name="com.example.vibhuyadav.sleepguard.MainActivity"
-                android:label="@string/app_name"
-                android:screenOrientation="portrait">
-                <!--<intent-filter>-->
-                    <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity
+            android:name="com.example.vibhuyadav.sleepguard.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-                    <!--<category android:name="android.intent.category.LAUNCHER" />-->
-                <!--</intent-filter>-->
-            </activity>
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".NotificationAlertActivity"
+            android:label="SleepGuard" />
+
+        <activity
+            android:name="dartmouth.edu.sleepguard.NotificationReceiver"
+            android:label="SleepGuard" />
+
         <service
             android:name=".SleepGuardBackgroundService"
             android:exported="false" />
@@ -74,8 +86,7 @@
 
         <service
             android:name="com.example.vibhuyadav.sleepguard.NotificationService"
-            android:label="Notification Service" >
-        </service>
+            android:label="Notification Service"></service>
 
 
     </application>

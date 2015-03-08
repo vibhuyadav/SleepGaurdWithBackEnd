@@ -15,15 +15,14 @@ import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.cmd.Query;
 
-import static com.example.vibhuyadav.sleepguard.backend.OfyService.ofy;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.inject.Named;
 
-@Api(name = "usereEndpoint", version = "v1", namespace = @ApiNamespace(ownerDomain = "com.example.vibhuyadav.sleepguard.backend", ownerName = "com.example.vibhuyadav.sleepguard.backend", packagePath=""))
+import static com.example.vibhuyadav.sleepguard.backend.OfyService.ofy;
+
+@Api(name = "usereEndpoint", version = "v1", namespace = @ApiNamespace(ownerDomain = "com.example.vibhuyadav.sleepguard.backend", ownerName = "com.example.vibhuyadav.sleepguard.backend", packagePath = ""))
 public class UserEndPoint {
     public UserEndPoint() {
 
@@ -38,7 +37,7 @@ public class UserEndPoint {
 
     @ApiMethod(name = "listUser")
     public CollectionResponse<User> listUser(@Nullable @Named("cursor") String cursorString,
-                                              @Nullable @Named("count") Integer count) {
+                                             @Nullable @Named("count") Integer count) {
 
         Query<User> query = ofy().load().type(User.class);
         if (count != null) query.limit(count);
@@ -68,6 +67,7 @@ public class UserEndPoint {
 
     /**
      * This inserts a new <code>User</code> object.
+     *
      * @param user The object to be added.
      * @return The object to be added.
      */
@@ -88,11 +88,12 @@ public class UserEndPoint {
 
     /**
      * This updates an existing <code>User</code> object.
+     *
      * @param user The object to be added.
      * @return The object to be updated.
      */
     @ApiMethod(name = "updateUser")
-    public User updateUser(User user)throws NotFoundException {
+    public User updateUser(User user) throws NotFoundException {
         if (findRecord(user.getMyId()) == null) {
             throw new NotFoundException("User Record does not exist");
         }
@@ -102,12 +103,13 @@ public class UserEndPoint {
 
     /**
      * This deletes an existing <code>User</code> object.
+     *
      * @param mDeviceId The id of the object to be deleted.
      */
     @ApiMethod(name = "removeUser")
     public void removeUser(@Named("mDeviceId") String mDeviceId) throws NotFoundException {
         User record = findRecord(mDeviceId);
-        if(record == null) {
+        if (record == null) {
             throw new NotFoundException("User Record does not exist");
         }
         ofy().delete().entity(record).now();

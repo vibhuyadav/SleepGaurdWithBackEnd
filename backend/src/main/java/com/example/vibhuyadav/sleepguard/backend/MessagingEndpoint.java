@@ -11,20 +11,13 @@ import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 import com.google.api.server.spi.config.Api;
-import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
-import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.cmd.Query;
 
-import org.json.simple.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
@@ -57,7 +50,7 @@ public class MessagingEndpoint {
      */
 
     public void sendMessage(@Named("message") String message) throws IOException {
-        log.info("In Send Message: "+message);
+        log.info("In Send Message: " + message);
         if (message == null || message.trim().length() == 0) {
             log.warning("Not sending message because it is empty");
             return;
@@ -94,7 +87,7 @@ public class MessagingEndpoint {
     }
 
     public void sendMessageToDevice(@Named("message") String message, @Named("regId") String regId) throws IOException {
-        log.info("In Send sendMessageToDevice - Message: "+message+", RegID: "+regId);
+        log.info("In Send sendMessageToDevice - Message: " + message + ", RegID: " + regId);
         if (message == null || message.trim().length() == 0) {
             log.warning("Not sending message because it is empty");
             return;
@@ -105,9 +98,9 @@ public class MessagingEndpoint {
         }
         Sender sender = new Sender(API_KEY);
         Message msg = new Message.Builder().addData("message", message)
-                    .addData("field1", "field")
-                    .addData("field2", "field")
-                    .build();
+                .addData("field1", "field")
+                .addData("field2", "field")
+                .build();
         Result result = sender.send(msg, regId, 5);
         if (result.getMessageId() != null) {
             log.info("Message sent to " + regId);
@@ -148,7 +141,7 @@ public class MessagingEndpoint {
 
         Query<User> query = ofy().load().type(User.class);
 
-        List<String> candidateDevices = new ArrayList<String>();
+//        List<String> candidateDevices = new ArrayList<String>();
 
         List<User> records = new ArrayList<User>();
         QueryResultIterator<User> iterator = query.iterator();
@@ -188,7 +181,7 @@ public class MessagingEndpoint {
 
         for (User user : records) {
             if (user.getStatus() == false) {
-                if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
+                if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())) {
                     candidateDevices.add(user.mDeviceId);
                 }
 
@@ -196,8 +189,8 @@ public class MessagingEndpoint {
         }
 
 
-        MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
-        for (String regId:candidateDevices){
+        MessagingEndpoint messagingEndpoint = new MessagingEndpoint();
+        for (String regId : candidateDevices) {
             messagingEndpoint.sendMessageToDevice("Shut the fuck up", regId);
         }
 

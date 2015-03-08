@@ -1,5 +1,9 @@
 package com.example.vibhuyadav.sleepguard.backend;
 
+/**
+ * Created by vibhuyadav on 3/8/2015.
+ */
+
 /** The object model for the data we are sending through endpoints */
 public class MyFence {
 

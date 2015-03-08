@@ -153,7 +153,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         final View controlsButtonView;
         controlsButtonView = findViewById(R.id.testNotificationButton);
         final View contentView;
-        contentView = findViewById(R.id.backgroundImage);
+        contentView = findViewById(R.id.backgroundImage1);
 
         mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
         mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
@@ -204,7 +204,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                                         android.R.integer.config_shortAnimTime);
                             }
                             controlsView.animate()
-                                    .translationY(visible ? 0 : mControlsHeight)
+                                    .translationY(visible ? 0 : -mControlsHeight)
                                     .setDuration(mShortAnimTime);
                             controlsButtonView.animate()
                                     .translationY(visible ? 0 : mControlsHeight)
@@ -680,7 +680,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     protected void onDestroy() {
         super.onDestroy();
         cancelNotification(0);
-        stopLocationUpdates();
+//        stopLocationUpdates();
 
     }
 
