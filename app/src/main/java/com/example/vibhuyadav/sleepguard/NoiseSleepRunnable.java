@@ -23,6 +23,7 @@ public class NoiseSleepRunnable implements Runnable {
             AudioFormat.CHANNEL_IN_DEFAULT, AudioFormat.ENCODING_PCM_16BIT);
     AudioRecord mAudioRecord;
     boolean isGetAudio = true;
+    long lastRequest=0;
     //AutomaticGainControl ACG;
     Object mLock;
     String regId;
@@ -55,12 +56,17 @@ public class NoiseSleepRunnable implements Runnable {
             }
             //Log.d("Num over threshold", Integer.toString(audioWindow.num_over_threshold));
             if (audioWindow.num_over_threshold > NUM_OVER_THRESHOLD && audioWindow.isFull()) {
-                Intent localIntent = new Intent(Constants.NOISE_ALERT);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
+                if((System.currentTimeMillis()-lastRequest)>10000) {
+                    lastRequest=System.currentTimeMillis();
+                    Intent localIntent = new Intent(Constants.NOISE_ALERT);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
 //                Log.d("Start Time", Long.toString(audioWindow.getTimeStamp()));
-                String[] params={regId,Long.toString(audioWindow.getTimeStamp())};
-                new NoiseSleepAsyncTask(context).execute(params);
-                isGetAudio = false;
+                    String[] params = {regId
+                            , Long.toString(audioWindow.getTimeStamp())
+                            , Integer.toString(audioWindow.getNumOverThreshold())
+                            , Integer.toString(audioWindow.getAverageAmplitude())};
+                    new NoiseSleepAsyncTask(context).execute(params);
+                }
             }
             synchronized (mLock) {
                 try {

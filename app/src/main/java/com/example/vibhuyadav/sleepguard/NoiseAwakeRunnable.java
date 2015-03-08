@@ -18,14 +18,15 @@ public class NoiseAwakeRunnable implements Runnable {
     static final int SAMPLE_RATE_IN_HZ = 16000;
     static final short THRESHOLD = 4000;
     static final int WINDOW_WIDTH = 5;//second
-    static final int RECORD_LENGTH = 25;//second
+
     static final int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE_IN_HZ,
             AudioFormat.CHANNEL_IN_DEFAULT, AudioFormat.ENCODING_PCM_16BIT);
     AudioRecord mAudioRecord;
     boolean isGetAudio = true;
-    boolean isGetRequest = false;
-    long timeStamp=0;
-    List<String[]> recordList=new ArrayList<>();
+    boolean isOnRequest = false;
+    long requestTime=0;
+    List<long[]> recordList=new ArrayList<>();
+    static final int LISTSIZE=(SAMPLE_RATE_IN_HZ/BUFFER_SIZE+1)*30;//30 seconds
     //AutomaticGainControl ACG;
     Object mLock;
     String regId;
@@ -39,8 +40,8 @@ public class NoiseAwakeRunnable implements Runnable {
         isGetAudio=false;
     }
     public void reportRequest(long time){
-        timeStamp=time;
-        isGetRequest=true;
+        requestTime=time;
+        isOnRequest=true;
     }
     @Override
     public void run(){
@@ -57,28 +58,35 @@ public class NoiseAwakeRunnable implements Runnable {
             int r = mAudioRecord.read(buffer, 0, BUFFER_SIZE);
             long approximateTime = System.currentTimeMillis();
             for (int i = 0; i < r; i++) {
-                String[] strs=audioWindow.push(buffer[i], approximateTime);
-                if(strs!=null)
-                    updateRecordWindow(strs);
+                audioWindow.push(buffer[i], approximateTime);
             }
-            Log.d("Num over threshold", Long.toString(audioWindow.num_over_threshold));
-
-            if(isGetRequest){
-                long timePoint=0;
-                int numOverThreshold=0;
-                long averagePeakValue=0;
-                for(String[] strs:recordList){
-                    long tempTimePoint=Long.parseLong(strs[0]);
-                    if(Math.abs(timePoint-timeStamp)>Math.abs(tempTimePoint-timeStamp)){
-                        timePoint=tempTimePoint;
-                        numOverThreshold=Integer.parseInt(strs[1]);
-                        averagePeakValue=Long.parseLong(strs[2]);
+            Log.d("Num over threshold", Long.toString(audioWindow.getNumOverThreshold()));
+            Log.d("Average",Long.toString(audioWindow.getAverageAmplitude()));
+            if (audioWindow.isFull()) {
+                long startTime=audioWindow.getTimeStamp();
+                long numOverThreshold=audioWindow.getNumOverThreshold();
+                long average=audioWindow.getAverageAmplitude();
+                long[] strs={startTime,numOverThreshold,average};
+                recordList.add(strs);
+                if(recordList.size()>LISTSIZE)
+                    recordList.remove(0);
+            }
+            if(isOnRequest){
+                long startTime=0;
+                long numOverThreshold=0;
+                long average=0;
+                for(long[] strs:recordList){
+                    if(Math.abs(startTime-requestTime)>Math.abs(strs[0]-requestTime)){
+                        startTime=strs[0];
+                        numOverThreshold=strs[1];
+                        average=strs[2];
                     }
                 }
-                Log.d("Report",Long.toString(timePoint));
-                Log.d("Report",Integer.toString(numOverThreshold));
-                Log.d("Report",Long.toString(averagePeakValue));
-                isGetRequest=false;
+                Log.d("Start time",Long.toString(startTime));
+                Log.d("Num over Threshold",Long.toString(numOverThreshold));
+                Log.d("Average",Long.toString(average));
+                isOnRequest=false;
+                isGetAudio=false;// Temporary Test
             }
             synchronized (mLock) {
                 try {
@@ -93,19 +101,7 @@ public class NoiseAwakeRunnable implements Runnable {
         mAudioRecord.release();
         mAudioRecord = null;
 
+
     }
 
-    public void updateRecordWindow(String[] strs){
-        if(recordList.size()<=0){
-            recordList.add(strs);
-        }else{
-            String[] lastRecord=recordList.get(recordList.size()-1);
-            if(!lastRecord[0].equals(strs[0])){
-                recordList.add(strs);
-                if(recordList.size()>RECORD_LENGTH*8){
-                    recordList.remove(0);
-                }
-            }
-        }
-    }
 }
