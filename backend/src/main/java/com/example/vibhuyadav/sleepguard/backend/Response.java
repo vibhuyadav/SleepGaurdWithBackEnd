@@ -18,7 +18,7 @@ public class Response {
     Long mTimeStamp;
 
     public Double getAverage() {
-        return average;
+        return this.average;
     }
 
     public void setAverage(Double average) {
@@ -28,7 +28,7 @@ public class Response {
     Double average;
 
     public String getRequestId() {
-        return requestId;
+        return this.requestId;
     }
 
     public void setRequestId(String requestId) {
@@ -39,7 +39,7 @@ public class Response {
 
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
@@ -47,7 +47,7 @@ public class Response {
     }
 
     public String getmDeviceId() {
-        return mDeviceId;
+        return this.mDeviceId;
     }
 
     public void setmDeviceId(String mDeviceId) {
@@ -55,7 +55,7 @@ public class Response {
     }
 
     public Long getmTimeStamp() {
-        return mTimeStamp;
+        return this.mTimeStamp;
     }
 
     public void setmTimeStamp(Long mTimeStamp) {

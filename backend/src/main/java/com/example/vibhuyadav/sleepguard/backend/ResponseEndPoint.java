@@ -18,6 +18,7 @@ import com.googlecode.objectify.cmd.Query;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.inject.Named;
 
@@ -28,6 +29,7 @@ public class ResponseEndPoint {
     public ResponseEndPoint() {
 
     }
+    private static final Logger log = Logger.getLogger(MessagingEndpoint.class.getName());
 
     /**
      * Return a collection of users
@@ -67,12 +69,37 @@ public class ResponseEndPoint {
     }
 
     @ApiMethod(name = "listResponseByRequestID")
-    public CollectionResponse<Response> listResponseRequestId(@Named("requestId") String requestID) {
+    public List<Response> listResponseRequestId(@Named("requestId") String requestID) {
+
+
+        Query<Response> query = ofy().load().type(Response.class);
+
 
 
         List<Response> records = new ArrayList<Response>();
-        records = ofy().load().type(Response.class).filter("requestId in", requestID).list();
-        return CollectionResponse.<Response>builder().setItems(records).build();
+        QueryResultIterator<Response> iterator = query.iterator();
+        int num = 0;
+        while (iterator.hasNext()) {
+            records.add(iterator.next());
+            /*if (count != null) {
+                num++;
+                if (num == count) break;
+            }*/
+
+        }
+        log.info("In listResponseRequestId");
+
+        List<Response> candidateRecords= new ArrayList<Response>();
+
+        for (Response response: records) {
+            System.out.println("Response: Requestid="+response.getRequestId());
+            if (response.getRequestId().equals(requestID)) {
+                candidateRecords.add(response);
+
+            }
+        }
+
+        return candidateRecords;
     }
 
     /**
