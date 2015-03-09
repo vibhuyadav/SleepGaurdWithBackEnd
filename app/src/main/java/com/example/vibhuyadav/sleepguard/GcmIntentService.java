@@ -83,7 +83,7 @@ public class GcmIntentService extends IntentService {
             if (extras.getString("message_type").equals("request")){
                 mUserPreferences.setRequestingDeviceId(extras.getString("request"));
                 mUserPreferences.setRequestingTimeStamp(Long.parseLong(extras.getString("timeStamp")));
-                mUserPreferences.setRequestStatus(true);
+                mUserPreferences.setRequestStatus(true);//change the global variable
 //                Response response = new Response();
 //                response.setMDeviceId(mUserPreferences.getMyDeviceId());
 //                response.setRequestId(extras.getString("request"));
