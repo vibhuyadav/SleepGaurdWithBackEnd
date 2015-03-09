@@ -75,11 +75,11 @@ public class UserEndPoint {
     public User insertUser(User user) throws ConflictException {
 //If if is not null, then check if it exists. If yes, throw an Exception
 //that it is already present
-        if (user.getMyId() != null) {
-            if (findRecord(user.getMyId()) != null) {
-                throw new ConflictException("Object already exists");
-            }
-        }
+    //    if (user.getMyId() != null) {
+  //          if (findRecord(user.getMyId()) != null) {
+     //           throw new ConflictException("Object already exists");
+      //      }
+     //   }
 //Since our @Id field is a Long, Objectify will generate a unique value for us
 //when we use put
         ofy().save().entity(user).now();
@@ -94,9 +94,9 @@ public class UserEndPoint {
      */
     @ApiMethod(name = "updateUser")
     public User updateUser(User user) throws NotFoundException {
-        if (findRecord(user.getMyId()) == null) {
-            throw new NotFoundException("User Record does not exist");
-        }
+   //     if (findRecord(user.getMyId()) == null) {
+     //       throw new NotFoundException("User Record does not exist");
+   //     }
         ofy().save().entity(user).now();
         return user;
     }

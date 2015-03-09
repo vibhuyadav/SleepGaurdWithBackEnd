@@ -188,15 +188,16 @@ public class MessagingEndpoint {
         for (User user : records) {
             if (user.getStatus() == false) {
                 log.info("In user record");
-                if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
+               // if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
                     candidateDevices.add(user.mDeviceId);
-                }
+           //     }
 
             }
         }
 
         Message msg = new Message.Builder().addData("message_type", "request")
                 .addData("request", request.getDeviceId())
+                .addData("timeStamp", String.valueOf(request.getTimeStamp()))
                 .build();
 
         MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
