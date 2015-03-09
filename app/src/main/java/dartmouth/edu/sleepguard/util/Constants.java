@@ -49,9 +49,10 @@ public class Constants {
 
     public static final String USER_INSERT_TASK = "TASK_INSERT_USER";
     public static final String USER_UPDATE_TASK = "USER_UPDATE_TASK";
+    public static final String USER_RESONSE = "USER_RESPONSE";
 
-    public static final String SERVER_ADDRESS = "http://10.31.252.19:8080/_ah/api/";
-    public static final String MACHINE_ADDRESS = "http://10.31.252.19:8080/_ah/api/";
+    public static final String SERVER_ADDRESS = "http://10.31.252.88:8080/_ah/api/";
+    public static final String MACHINE_ADDRESS = "http://10.31.252.88:8080/_ah/api/";
 
 //    public static final String SERVER_ADDRESS = "https://praxis-practice-856.appspot.com/_ah/api/";
 //    public static final String MACHINE_ADDRESS = "https://praxis-practice-856.appspot.com/_ah/api/";
