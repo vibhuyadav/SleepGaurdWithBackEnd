@@ -81,11 +81,14 @@ public class GcmIntentService extends IntentService {
             Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
             // Post notification of received message.
             if (extras.getString("message_type").equals("request")){
-                Response response = new Response();
-                response.setMDeviceId(mUserPreferences.getMyDeviceId());
-                response.setRequestId(extras.getString("request"));
-                response.setAverage(mUserPreferences.getmAverage());
-                new ResponseEndpointsAsyncTask(this.getApplicationContext()).execute(response);
+                mUserPreferences.setRequestingDeviceId(extras.getString("request"));
+                mUserPreferences.setRequestingTimeStamp(Long.parseLong(extras.getString("timeStamp")));
+                mUserPreferences.setRequestStatus(true);
+//                Response response = new Response();
+//                response.setMDeviceId(mUserPreferences.getMyDeviceId());
+//                response.setRequestId(extras.getString("request"));
+//                response.setAverage(mUserPreferences.getmAverage());
+//                new ResponseEndpointsAsyncTask(this.getApplicationContext()).execute(response);
             }
             if (extras.getString("message_type").equals("response")){
                 sendNotification("Please Do not Disturb: " + extras.getString("message"));
