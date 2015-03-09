@@ -194,6 +194,7 @@ public class MessagingEndpoint {
 
         Message msg = new Message.Builder().addData("message_type", "request")
                 .addData("request", request.getDeviceId())
+                .addData("timeStamp",Long.toString(request.getTimeStamp())) //add timeStamp to the message
                 .build();
 
         MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
