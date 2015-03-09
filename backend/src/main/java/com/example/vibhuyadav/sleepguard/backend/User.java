@@ -13,6 +13,7 @@ public class User {
     Double mLongitude;
     Double mLatitude;
     Boolean mStatus;
+    String mGroupId;
 
     public User(){
 
@@ -24,6 +25,14 @@ public class User {
 
     public void setDeviceId(String id){
         this.mDeviceId = id;
+    }
+
+    public String getMyGroupId(){
+        return mGroupId;
+    }
+
+    public void setGroupId(String id){
+        this.mGroupId = id;
     }
 
     public Double getLongitude(){

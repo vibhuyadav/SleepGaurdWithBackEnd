@@ -155,8 +155,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         final View contentView;
         contentView = findViewById(R.id.backgroundImage1);
 
-        mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
-        mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
+//        mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
+//        mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
 
         // Empty list for storing geofences.
         mGeofenceList = new ArrayList<Geofence>();
@@ -169,8 +169,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 MODE_PRIVATE);
 
         // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
-        mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
-        setButtonsEnabledState();
+//        mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
+//        setButtonsEnabledState();
 
         // Get the geofences used. Geofence data is hard coded in this sample.
         populateGeofenceList();
@@ -341,13 +341,21 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
 //        Intent mServiceIntent = new Intent(this, Voice.class);
 //        startService(mServiceIntent);
-        NoiseSleepRunnable noiseSleepRunnable=new NoiseSleepRunnable(this.getApplicationContext(),getRegistrationId(context));
-        Thread thread=new Thread(noiseSleepRunnable);
-        thread.start();
+        if (mUserPreferences.getMySleepStatus() == true){
+            NoiseSleepRunnable noiseSleepRunnable=new NoiseSleepRunnable(this.getApplicationContext(),getRegistrationId(context));
+            Thread thread=new Thread(noiseSleepRunnable);
+            thread.start();
+            IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
+            AlertReceiver alertReceiver=new AlertReceiver();
+            LocalBroadcastManager.getInstance(this).registerReceiver(alertReceiver,alterIntentFilter);
+        }
+        else{
+            NoiseAwakeRunnable noiseAwakeRunnable = new NoiseAwakeRunnable(this.getApplicationContext(), getRegistrationId(context));
 
-        IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
-        AlertReceiver alertReceiver=new AlertReceiver();
-        LocalBroadcastManager.getInstance(this).registerReceiver(alertReceiver,alterIntentFilter);
+            IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
+            AlertReceiver alertReceiver=new AlertReceiver();
+            LocalBroadcastManager.getInstance(this).registerReceiver(alertReceiver,alterIntentFilter);
+        }
 
     }
 
@@ -832,7 +840,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
             // Update the UI. Adding geofences enables the Remove Geofences button, and removing
             // geofences enables the Add Geofences button.
-            setButtonsEnabledState();
+//            setButtonsEnabledState();
 
             Toast.makeText(
                     this,

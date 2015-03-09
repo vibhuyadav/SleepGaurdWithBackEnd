@@ -187,6 +187,7 @@ public class MessagingEndpoint {
                 log.info("In user record");
                 if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
                     candidateDevices.add(user.mDeviceId);
+                    Util.computeDistanceGroup(user.mGroupId);
                 }
 
             }
