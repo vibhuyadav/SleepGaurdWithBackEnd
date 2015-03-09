@@ -55,11 +55,11 @@ public class Constants {
     public static final String REQUESTING_TIMESTAMP="Requesting timeStamp";
     public static final String IS_ON_REQUEST="Is on request";
 
-    public static final String SERVER_ADDRESS = "http://10.31.252.88:8080/_ah/api/";
-    public static final String MACHINE_ADDRESS = "http://10.31.252.88:8080/_ah/api/";
+//    public static final String SERVER_ADDRESS = "http://10.31.252.88:8080/_ah/api/";
+//    public static final String MACHINE_ADDRESS = "http://10.31.252.88:8080/_ah/api/";
 
-//    public static final String SERVER_ADDRESS = "https://praxis-practice-856.appspot.com/_ah/api/";
-//    public static final String MACHINE_ADDRESS = "https://praxis-practice-856.appspot.com/_ah/api/";
+    public static final String SERVER_ADDRESS = "https://praxis-practice-856.appspot.com/_ah/api/";
+    public static final String MACHINE_ADDRESS = "https://praxis-practice-856.appspot.com/_ah/api/";
 
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
