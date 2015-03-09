@@ -16,16 +16,27 @@ public class Response {
     @Id Long id;
     String mDeviceId;
     Long mTimeStamp;
-    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    @Parent Key<Request> parentRequest;
 
-    public Key<Request> getParentRequest() {
-        return parentRequest;
+    public Double getAverage() {
+        return average;
     }
 
-    public void setParentRequest(Key<Request> parentRequest) {
-        this.parentRequest = parentRequest;
+    public void setAverage(Double average) {
+        this.average = average;
     }
+
+    Double average;
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    String requestId;
+
 
     public Long getId() {
         return id;

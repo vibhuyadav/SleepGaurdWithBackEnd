@@ -74,7 +74,7 @@ public class NoiseSleepAsyncTask extends AsyncTask<String[], Void, String> {
 
 */
         try {
-            messagingAPI.messagingEndpoint().sendRequest(request);
+            messagingAPI.messagingEndpoint().sendRequest(request).execute();
             //messagingAPI.(regId,timeStamp).execute();
         } catch (IOException e) {
             e.printStackTrace();

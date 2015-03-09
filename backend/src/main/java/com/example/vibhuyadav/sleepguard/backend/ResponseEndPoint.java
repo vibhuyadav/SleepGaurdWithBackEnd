@@ -7,6 +7,7 @@ package com.example.vibhuyadav.sleepguard.backend;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.api.server.spi.config.Nullable;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.ConflictException;
@@ -65,6 +66,15 @@ public class ResponseEndPoint {
         return CollectionResponse.<Response>builder().setItems(records).setNextPageToken(cursorString).build();
     }
 
+    @ApiMethod(name = "listResponseByRequestID")
+    public CollectionResponse<Response> listResponseRequestId(@Named("requestId") String requestID) {
+
+
+        List<Response> records = new ArrayList<Response>();
+        records = ofy().load().type(Response.class).filter("requestId in", requestID).list();
+        return CollectionResponse.<Response>builder().setItems(records).build();
+    }
+
     /**
      * This inserts a new <code>Response</code> object.
      * @param response The object to be added.
@@ -87,7 +97,7 @@ public class ResponseEndPoint {
      */
     @ApiMethod(name = "updateResponse")
     public Response updateResponse(Response response)throws NotFoundException {
-        if (findRecord(response.getmDeviceId()) == null) {
+        if (findRecord(response.getId()) == null) {
             throw new NotFoundException("Response Record does not exist");
         }
         ofy().save().entity(response).now();
@@ -96,11 +106,11 @@ public class ResponseEndPoint {
 
     /**
      * This deletes an existing <code>Response</code> object.
-     * @param mDeviceId The id of the object to be deleted.
+     * @param id The id of the object to be deleted.
      */
     @ApiMethod(name = "removeResponse")
-    public void removeResponse(@Named("mDeviceId") String mDeviceId) throws NotFoundException {
-        Response record = findRecord(mDeviceId);
+    public void removeResponse(@Named("id") Long id) throws NotFoundException {
+        Response record = findRecord(id);
         if(record == null) {
             throw new NotFoundException("Response Record does not exist");
         }
@@ -108,8 +118,8 @@ public class ResponseEndPoint {
     }
 
     //Private method to retrieve a <code>Response</code> record
-    private Response findRecord(String mDeviceId) {
-        return ofy().load().type(Response.class).id(mDeviceId).now();
+    private Response findRecord(Long id) {
+        return ofy().load().type(Response.class).id(id).now();
 //or return ofy().load().type(Response.class).filter("id",id).first.now();
     }
 

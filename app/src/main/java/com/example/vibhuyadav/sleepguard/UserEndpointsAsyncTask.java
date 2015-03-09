@@ -81,6 +81,20 @@ public class UserEndpointsAsyncTask extends AsyncTask<String, Void, User> {
             }
         }
 
+        else if(taskType[0].equals(Constants.USER_RESONSE)){
+            try {
+                //return myApiService.listUser().execute().getItems();
+
+                Log.d(Constants.UserEndPointAsyncTaskTag, "About to Send Response");
+                User temp;
+                temp = myApiService.updateUser(mUser).execute();
+                return temp;
+            } catch (IOException e) {
+                Log.d(Constants.UserEndPointAsyncTaskTag, e.getMessage());
+                return null;
+            }
+        }
+
         return null;
     }
 

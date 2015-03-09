@@ -19,6 +19,8 @@ public class OfyService {
     static {
         ObjectifyService.register(RegistrationRecord.class);
         ObjectifyService.register(User.class);
+        ObjectifyService.register(Request.class);
+        ObjectifyService.register(Response.class);
         ObjectifyService.register(SleepReceiverRecord.class);
     }
 
