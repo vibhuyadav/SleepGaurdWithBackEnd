@@ -30,7 +30,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
@@ -189,9 +188,9 @@ public class MessagingEndpoint {
         for (User user : records) {
             if (user.getStatus() == false) {
                 log.info("In user record");
-             //   if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
-                    candidateDevices.add(user.getMyId());
-              //  }
+                if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
+                    candidateDevices.add(user.mDeviceId);
+                }
 
             }
         }

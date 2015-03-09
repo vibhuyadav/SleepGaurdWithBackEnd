@@ -28,4 +28,9 @@ public class Util {
 
         return (deg * Math.PI / 180.0);
     }
+
+    public static String computeDistanceGroup(String DeviceId){
+        String GroupID = DeviceId + "";
+        return GroupID;
+    }
 }
