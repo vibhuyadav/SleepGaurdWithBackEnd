@@ -17,6 +17,16 @@ public class UserPreferences {
     Boolean mSleepStatus;
     String mDeviceId;
 
+
+    public boolean getRequestStatus(){
+        return sharedPref.getBoolean(Constants.IS_ON_REQUEST,false);
+    }
+    public void setRequestStatus(Boolean requestStatus){
+        editor = sharedPref.edit();
+        editor.putBoolean(Constants.IS_ON_REQUEST, requestStatus);
+        editor.commit();
+    }
+
     public Double getmAverage() {
         return (double) sharedPref.getFloat(Constants.MY_AVERAGE, 0.0f);
     }
@@ -50,7 +60,23 @@ public class UserPreferences {
         editor.putString(Constants.MY_DEVICE_ID, mDeviceId);
         editor.commit();
     }
+    public String getRequestingDeviceId() {
+        return  sharedPref.getString(Constants.ID_OF_REQUESTING_DEVICE, "None");
+    }
+    public void setRequestingDeviceId(String deviceId){
+        editor = sharedPref.edit();
+        editor.putString(Constants.ID_OF_REQUESTING_DEVICE, deviceId);
+        editor.commit();
+    }
 
+    public long getRequestingTimeStamp() {
+        return sharedPref.getLong(Constants.REQUESTING_TIMESTAMP,0);
+    }
+    public void setRequestingTimeStamp(long timeStamp){
+        editor = sharedPref.edit();
+        editor.putLong(Constants.REQUESTING_TIMESTAMP, timeStamp);
+        editor.commit();
+    }
     public Double getMyLongitude() {
         return (double)sharedPref.getFloat(Constants.MY_LONGITUDE, 0.0f);
     }

@@ -13,7 +13,10 @@ import com.google.android.gcm.server.Sender;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.ConflictException;
+import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.ThreadManager;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.cmd.Query;
@@ -164,13 +167,13 @@ public class MessagingEndpoint {
         }
     }
 
-    public void sendRequest(Request request) throws IOException {
+    public void sendRequest(final Request request) throws IOException {
         Query<User> query = ofy().load().type(User.class);
 
         List<String> candidateDevices = new ArrayList<String>();
 
         List<User> records = new ArrayList<User>();
-        QueryResultIterator<User> iterator = query.iterator();
+        final QueryResultIterator<User> iterator = query.iterator();
         int num = 0;
         while (iterator.hasNext()) {
             records.add(iterator.next());
@@ -185,16 +188,16 @@ public class MessagingEndpoint {
         for (User user : records) {
             if (user.getStatus() == false) {
                 log.info("In user record");
-                if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
+               // if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
                     candidateDevices.add(user.mDeviceId);
-                    Util.computeDistanceGroup(user.mGroupId);
-                }
+           //     }
 
             }
         }
 
         Message msg = new Message.Builder().addData("message_type", "request")
                 .addData("request", request.getDeviceId())
+                .addData("timeStamp", String.valueOf(request.getTimeStamp()))
                 .build();
 
         MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
@@ -202,7 +205,44 @@ public class MessagingEndpoint {
             messagingEndpoint.sendMessageToDevice(msg, regId);
         }
 
-        System.out.println("inSendTimeStampFunction");
+        Thread thread = ThreadManager.createBackgroundThread(new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(5000);
+                    while (true) {
+
+                        log.info("In Server thread - Processing for request: "+request.deviceId);
+                        ResponseEndPoint responseEndPoint = new ResponseEndPoint();
+                        List <Response> collectionResponse = responseEndPoint.listResponseRequestId(request.deviceId);
+
+
+                        for(Response response:collectionResponse){
+                            Message msg = new Message.Builder().addData("message_type", "response")
+                                    .addData("message", "shut the fuck up")
+                                    .build();
+                            MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
+                            try {
+                                messagingEndpoint.sendMessageToDevice(msg, response.getmDeviceId());
+                                log.info("Message sent to: "+response.getmDeviceId());
+                                try {
+                                    responseEndPoint.removeResponse(response.getId());
+                                } catch (NotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        return;
+                    }
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException("Interrupted in loop:", ex);
+                }
+            }
+        });
+        thread.start();
+
     }
 
     public void sendResponse(Response response) throws IOException {

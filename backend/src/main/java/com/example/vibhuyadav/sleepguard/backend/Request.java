@@ -13,7 +13,7 @@ public class Request {
     Double latitude;
 
     public String getDeviceId() {
-        return deviceId;
+        return this.deviceId;
     }
 
     public void setDeviceId(String deviceId) {
@@ -21,7 +21,7 @@ public class Request {
     }
 
     public Double getLongitude() {
-        return longitude;
+        return this.longitude;
     }
 
     public void setLongitude(Double longitude) {
@@ -29,7 +29,7 @@ public class Request {
     }
 
     public Double getLatitude() {
-        return latitude;
+        return this.latitude;
     }
 
     public void setLatitude(Double latitude) {
@@ -37,7 +37,7 @@ public class Request {
     }
 
     public Long getTimeStamp() {
-        return timeStamp;
+        return this.timeStamp;
     }
 
     public void setTimeStamp(Long timeStamp) {

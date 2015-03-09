@@ -95,7 +95,8 @@ public class NotificationService extends Service {
         mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                windowManager.removeView(notificationView);
+                //windowManager.removeView(notificationView);
+                stopSelf();
             }
         });
 
