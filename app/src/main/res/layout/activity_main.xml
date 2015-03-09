@@ -41,22 +41,20 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#f7161655"
             android:textSize="24dp"
-            android:textStyle="bold"
-        />
+            android:textStyle="bold" />
 
         <Switch
             android:id="@+id/sleepToogle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="75dp"
             android:checked="false"
             android:text="@string/SleepToogleOn"
             android:textOff="No"
-            android:textOn="Yes"
-            android:layout_marginBottom="25dp"
-            android:layout_marginTop="75dp"/>
-
+            android:textOn="Yes" />
 
 
         <Button
@@ -76,10 +74,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/testNotificationButton"
+            android:layout_marginBottom="25dp"
             android:layout_toLeftOf="@+id/textView"
             android:layout_toStartOf="@+id/textView"
-            android:layout_marginBottom="25dp"
             android:text="Dev_Id" />
+
 
         <Button
             android:id="@+id/button_steep_status"
@@ -112,27 +111,27 @@
             android:layout_marginBottom="25dp"
             android:text="Send Msg" />
 
-        <Button
-            android:id="@+id/add_geofences_button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/button_sendMessage"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="25dp"
-            android:text="Add GeoFence" />
+        <!--<Button-->
+        <!--android:id="@+id/add_geofences_button"-->
+        <!--style="?android:attr/buttonStyleSmall"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/button_sendMessage"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginBottom="25dp"-->
+        <!--android:text="Add GeoFence" />-->
 
-        <Button
-            android:id="@+id/remove_geofences_button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/button_sendMessage"
-            android:layout_alignLeft="@+id/button_sendMessage"
-            android:layout_alignStart="@+id/button_sendMessage"
-            android:layout_marginBottom="25dp"
-            android:text="Remove Geofence" />
+        <!--<Button-->
+        <!--android:id="@+id/remove_geofences_button"-->
+        <!--style="?android:attr/buttonStyleSmall"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/button_sendMessage"-->
+        <!--android:layout_alignLeft="@+id/button_sendMessage"-->
+        <!--android:layout_alignStart="@+id/button_sendMessage"-->
+        <!--android:layout_marginBottom="25dp"-->
+        <!--android:text="Remove Geofence" />-->
 
     </RelativeLayout>
 </FrameLayout>

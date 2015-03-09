@@ -13,6 +13,7 @@ public class Request {
     String deviceId;
     Double longitude;
     Double latitude;
+    String groupID;
 
     public Long getRequestId() {
         return requestId;
@@ -20,6 +21,14 @@ public class Request {
 
     public void setRequestId(Long requestId) {
         this.requestId = requestId;
+    }
+
+    public String getGroupId() {
+        return groupID;
+    }
+
+    public void setGroupId(String groupID) {
+        this.groupID = groupID;
     }
 
     public String getDeviceId() {
