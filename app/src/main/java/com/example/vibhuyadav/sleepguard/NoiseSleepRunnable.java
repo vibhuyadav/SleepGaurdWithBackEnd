@@ -28,9 +28,11 @@ public class NoiseSleepRunnable implements Runnable {
     Object mLock;
     String regId;
     Context context;
+    UserPreferences mUserPreferences;
 
     public NoiseSleepRunnable(Context ctxt,String regId){
         context=ctxt;
+        mUserPreferences= new UserPreferences(context);
         this.regId=regId;
     }
 
@@ -65,6 +67,7 @@ public class NoiseSleepRunnable implements Runnable {
                             , Long.toString(audioWindow.getTimeStamp())
                             , Integer.toString(audioWindow.getNumOverThreshold())
                             , Integer.toString(audioWindow.getAverageAmplitude())};
+                    mUserPreferences.setmAverage((double)audioWindow.getAverageAmplitude());
                     new NoiseSleepAsyncTask(context).execute(params);
                     isGetAudio = false;
                 }
