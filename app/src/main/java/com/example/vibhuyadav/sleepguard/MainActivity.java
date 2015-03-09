@@ -276,9 +276,23 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 if (isChecked) {
                     mBackgroundView.setImageResource(R.drawable.main_activity_background_night);
                     mUserPreferences.setMyStatus(true);
+                    new UserEndpointsAsyncTask(context).execute(Constants.USER_UPDATE_TASK);
+                    NoiseSleepRunnable noiseSleepRunnable=new NoiseSleepRunnable(getApplicationContext(),getRegistrationId(context));
+                    Thread thread=new Thread(noiseSleepRunnable);
+                    thread.start();
+                    IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
+                    AlertReceiver alertReceiver=new AlertReceiver();
+                    LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(alertReceiver,alterIntentFilter);
                 } else {
                     mBackgroundView.setImageResource(R.drawable.main_activity_background);
                     mUserPreferences.setMyStatus(false);
+                    new UserEndpointsAsyncTask(context).execute(Constants.USER_UPDATE_TASK);
+                    NoiseAwakeRunnable noiseAwakeRunnable = new NoiseAwakeRunnable(getApplicationContext(), getRegistrationId(context));
+                    Thread thread=new Thread(noiseAwakeRunnable);
+                    thread.start();
+                    IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
+                    AlertReceiver alertReceiver=new AlertReceiver();
+                    LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(alertReceiver,alterIntentFilter);
                 }
             }
         });
@@ -351,7 +365,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         }
         else{
             NoiseAwakeRunnable noiseAwakeRunnable = new NoiseAwakeRunnable(this.getApplicationContext(), getRegistrationId(context));
-
+            Thread thread=new Thread(noiseAwakeRunnable);
+            thread.start();
             IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
             AlertReceiver alertReceiver=new AlertReceiver();
             LocalBroadcastManager.getInstance(this).registerReceiver(alertReceiver,alterIntentFilter);
@@ -744,6 +759,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     @Override
     protected void onStop() {
         super.onStop();
+        new UserEndpointsAsyncTask(context).execute(Constants.USER_REMOVE_TASK);
         mGoogleApiClient.disconnect();
     }
 
@@ -959,4 +975,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             nMgr.cancel(notificationId);
         }
     }
+
+
+
+
 }

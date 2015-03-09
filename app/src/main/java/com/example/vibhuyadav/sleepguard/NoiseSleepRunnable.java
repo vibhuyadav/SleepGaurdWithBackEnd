@@ -16,7 +16,7 @@ import dartmouth.edu.sleepguard.util.Constants;
 public class NoiseSleepRunnable implements Runnable {
     private static final String TAG = "AudioRecord";
     static final int SAMPLE_RATE_IN_HZ = 16000;
-    static final short THRESHOLD = 4000;
+    static final short THRESHOLD = 2000;
     static final int NUM_OVER_THRESHOLD = 1000;
     static final int WINDOW_WIDTH = 5;//second
     static final int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE_IN_HZ,
@@ -41,16 +41,21 @@ public class NoiseSleepRunnable implements Runnable {
     }
     @Override
     public void run(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         mAudioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
                 SAMPLE_RATE_IN_HZ, AudioFormat.CHANNEL_IN_DEFAULT,
                 AudioFormat.ENCODING_PCM_16BIT, BUFFER_SIZE);
         mLock = new Object();
-
+        mAudioRecord.stop();
         mAudioRecord.startRecording();
         short[] buffer = new short[BUFFER_SIZE];
 
         AudioWindow audioWindow = new AudioWindow(THRESHOLD, WINDOW_WIDTH, SAMPLE_RATE_IN_HZ);
-        while (isGetAudio) {
+        while (isGetAudio && mUserPreferences.getMySleepStatus()==true) {
             int r = mAudioRecord.read(buffer, 0, BUFFER_SIZE);
             long approximateTime = System.currentTimeMillis();
             for (int i = 0; i < r; i++) {
@@ -72,13 +77,13 @@ public class NoiseSleepRunnable implements Runnable {
                     isGetAudio = false;// Temporary Test
                 }
             }
-            synchronized (mLock) {
+          /*  synchronized (mLock) {
                 try {
                     mLock.wait(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
         }
         Log.d("report", "finished");
         mAudioRecord.stop();

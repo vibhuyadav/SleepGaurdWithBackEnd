@@ -45,6 +45,11 @@ public class NoiseAwakeRunnable implements Runnable {
 
     @Override
     public void run(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         mAudioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
                 SAMPLE_RATE_IN_HZ, AudioFormat.CHANNEL_IN_DEFAULT,
                 AudioFormat.ENCODING_PCM_16BIT, BUFFER_SIZE);
@@ -54,7 +59,7 @@ public class NoiseAwakeRunnable implements Runnable {
         short[] buffer = new short[BUFFER_SIZE];
 
         AudioWindow audioWindow = new AudioWindow(THRESHOLD, WINDOW_WIDTH, SAMPLE_RATE_IN_HZ);
-        while (isGetAudio) {
+        while (isGetAudio && mUserPreferences.getMySleepStatus()==false) {
             int r = mAudioRecord.read(buffer, 0, BUFFER_SIZE);
             long approximateTime = System.currentTimeMillis();
             for (int i = 0; i < r; i++) {
@@ -96,13 +101,13 @@ public class NoiseAwakeRunnable implements Runnable {
                 mUserPreferences.setRequestStatus(false);
                 isGetAudio=false;// Temporary Test
             }
-            synchronized (mLock) {
+       /*     synchronized (mLock) {
                 try {
                     mLock.wait(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
         }
         Log.d("report", "finished");
         mAudioRecord.stop();

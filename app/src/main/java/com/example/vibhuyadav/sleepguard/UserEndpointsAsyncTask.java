@@ -81,6 +81,19 @@ public class UserEndpointsAsyncTask extends AsyncTask<String, Void, User> {
             }
         }
 
+        else if (taskType[0].equals(Constants.USER_REMOVE_TASK)) {
+            try {
+                //return myApiService.listUser().execute().getItems();
+
+                Log.d(Constants.UserEndPointAsyncTaskTag, "About to Remove User");
+                myApiService.removeUser(mUser.getDeviceId()).execute();
+                return null;
+            } catch (IOException e) {
+                Log.d(Constants.UserEndPointAsyncTaskTag, e.getMessage());
+                return null;
+            }
+        }
+
         else if(taskType[0].equals(Constants.USER_RESONSE)){
             try {
                 //return myApiService.listUser().execute().getItems();

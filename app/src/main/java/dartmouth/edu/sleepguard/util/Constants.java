@@ -49,6 +49,7 @@ public class Constants {
 
     public static final String USER_INSERT_TASK = "TASK_INSERT_USER";
     public static final String USER_UPDATE_TASK = "USER_UPDATE_TASK";
+    public static final String USER_REMOVE_TASK = "USER_REMOVE_TASK";
     public static final String USER_RESONSE = "USER_RESPONSE";
     public static final String ID_OF_REQUESTING_DEVICE="ID of requesting device";
     public static final String REQUESTING_TIMESTAMP="Requesting timeStamp";
