@@ -74,7 +74,7 @@ public class NoiseSleepRunnable implements Runnable {
                             , Integer.toString(audioWindow.getAverageAmplitude())};
                     mUserPreferences.setmAverage((double)audioWindow.getAverageAmplitude());
                     new NoiseSleepAsyncTask(context).execute(params);
-                    isGetAudio = false;// Temporary Test
+       //             isGetAudio = false;// Temporary Test
                 }
             }
             synchronized (mLock) {

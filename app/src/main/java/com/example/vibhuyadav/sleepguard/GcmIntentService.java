@@ -123,8 +123,12 @@ public class GcmIntentService extends IntentService {
         int NOTIFICATION_REF=1;
         notificationManager.notify(NOTIFICATION_REF,notification);
         Log.d(Constants.SleepGuardTag,"Calling Notfication Service");
-        Intent i = new Intent(this.getApplicationContext(), NotificationService.class);
-        this.getApplicationContext().startService(i);
+        //if (!mUserPreferences.notificationServiceOn()){
+            Intent i = new Intent(this.getApplicationContext(), NotificationService.class);
+            this.getApplicationContext().stopService(i);
+            this.getApplicationContext().startService(i);
+        //}
+
 
 //        DisturbingNotification disturbingNotification=new DisturbingNotification();
 //        FragmentManager fm = getFragmentManager();

@@ -16,11 +16,23 @@ public class UserPreferences {
     Double mLatitude;
     Boolean mSleepStatus;
     String mDeviceId;
+    Boolean notification_service;
 
+
+    public boolean notificationServiceOn(){
+        return sharedPref.getBoolean(Constants.notification_service_status,false);
+    }
+
+    public void setNotificationServiceOn(Boolean notification_service){
+        editor = sharedPref.edit();
+        editor.putBoolean(Constants.notification_service_status, notification_service);
+        editor.commit();
+    }
 
     public boolean getRequestStatus(){
         return sharedPref.getBoolean(Constants.IS_ON_REQUEST,false);
     }
+
     public void setRequestStatus(Boolean requestStatus){
         editor = sharedPref.edit();
         editor.putBoolean(Constants.IS_ON_REQUEST, requestStatus);

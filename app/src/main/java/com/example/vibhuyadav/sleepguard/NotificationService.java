@@ -39,6 +39,7 @@ public class NotificationService extends Service {
     public static final int NOTIFICATION_ID = 1;
     int screenHeight;
     NotificationManager mNotificationManager;
+    UserPreferences mUserPref;
 
     @Override public IBinder onBind(Intent intent) {
         // Not used
@@ -47,7 +48,7 @@ public class NotificationService extends Service {
 
     @Override public void onCreate() {
         super.onCreate();
-
+        mUserPref = new UserPreferences(getApplicationContext());
 
     }
 
@@ -96,6 +97,7 @@ public class NotificationService extends Service {
             @Override
             public void onClick(View v) {
                 //windowManager.removeView(notificationView);
+           //     mUserPref.setNotificationServiceOn(false);
                 stopSelf();
             }
         });

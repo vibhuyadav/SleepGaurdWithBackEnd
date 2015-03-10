@@ -99,7 +99,7 @@ public class NoiseAwakeRunnable implements Runnable {
                 response.setAverage(mUserPreferences.getmAverage());
                 new ResponseEndpointsAsyncTask(context).execute(response);
                 mUserPreferences.setRequestStatus(false);
-                isGetAudio=false;// Temporary Test
+//                isGetAudio=false;// Temporary Test
             }
             synchronized (mLock) {
                 try {
