@@ -26,6 +26,7 @@ import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -188,9 +189,9 @@ public class MessagingEndpoint {
         for (User user : records) {
             if (user.getStatus() == false) {
                 log.info("In user record");
-               // if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
-                    candidateDevices.add(user.mDeviceId);
-           //     }
+                // if (Util.computeDistance(user.getLongitude(), user.getLatitude(), request.getLongitude(), request.getLatitude())){
+                candidateDevices.add(user.mDeviceId);
+                //     }
 
             }
         }
@@ -205,35 +206,41 @@ public class MessagingEndpoint {
             messagingEndpoint.sendMessageToDevice(msg, regId);
         }
 
-        Thread thread = ThreadManager.createBackgroundThread(new Runnable() {
+        Thread thread = ThreadManager.createThreadForCurrentRequest(new Runnable() {
             public void run() {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
                     while (true) {
 
                         log.info("In Server thread - Processing for request: "+request.deviceId);
                         ResponseEndPoint responseEndPoint = new ResponseEndPoint();
                         List <Response> collectionResponse = responseEndPoint.listResponseRequestId(request.deviceId);
+                        collectionResponse.sort(new Comparator<Response>() {
+                            @Override
+                            public int compare(Response o1, Response o2) {
+                                return o1.getAverage().compareTo(o2.getAverage());
+                            }
+                        });
 
+                        Message msg = new Message.Builder().addData("message_type", "response")
+                                .addData("message", "shut the fuck up")
+                                .build();
+                        MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
+                        try {
+                            messagingEndpoint.sendMessageToDevice(msg, collectionResponse.get(0).getmDeviceId());
+                            log.info("Message sent to: "+collectionResponse.get(0).getmDeviceId()+ " with average "+collectionResponse.get(0).getAverage());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         for(Response response:collectionResponse){
-                            Message msg = new Message.Builder().addData("message_type", "response")
-                                    .addData("message", "shut the fuck up")
-                                    .build();
-                            MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
                             try {
-                                messagingEndpoint.sendMessageToDevice(msg, response.getmDeviceId());
-                                log.info("Message sent to: "+response.getmDeviceId());
-                                try {
-                                    responseEndPoint.removeResponse(response.getId());
-                                } catch (NotFoundException e) {
-                                    e.printStackTrace();
-                                }
-                            } catch (IOException e) {
+                                responseEndPoint.removeResponse(response.getId());
+                            } catch (NotFoundException e) {
                                 e.printStackTrace();
                             }
-
                         }
+
                         return;
                     }
                 } catch (InterruptedException ex) {
