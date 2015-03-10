@@ -715,6 +715,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
