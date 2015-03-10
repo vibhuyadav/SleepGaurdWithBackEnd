@@ -66,6 +66,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     private LocationRequest mLocationRequest;
     String mLastUpdateTime;
     boolean mRequestingLocationUpdates;
+    TextView secondaryText;
 
     private boolean notificationActive = false;
     UserPreferences mUserPreferences;
@@ -148,10 +149,12 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         new GcmRegistrationAsyncTask(this).execute();
         context = getApplicationContext();
 
+        secondaryText = (TextView) (findViewById(R.id.textView2));
+
         final View controlsView;
         controlsView = findViewById(R.id.textView);
         final View controlsButtonView;
-//        controlsButtonView = findViewById(R.id.testNotificationButton);
+        controlsButtonView = findViewById(R.id.GoogleMessage);
         final View contentView;
         contentView = findViewById(R.id.backgroundImage1);
 
@@ -206,15 +209,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                             controlsView.animate()
                                     .translationY(visible ? 0 : -mControlsHeight)
                                     .setDuration(mShortAnimTime);
-//                            controlsButtonView.animate()
-//                                    .translationY(visible ? 0 : mControlsHeight)
-//                                    .setDuration(mShortAnimTime);
+                            controlsButtonView.animate()
+                                    .translationY(visible ? 0 : mControlsHeight)
+                                    .setDuration(mShortAnimTime);
                         } else {
                             // If the ViewPropertyAnimator APIs aren't
                             // available, simply show or hide the in-layout UI
                             // controls.
                             controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
-//                            controlsButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
+                            controlsButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
                         }
 
                         if (visible && AUTO_HIDE) {
@@ -283,6 +286,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                     IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
                     AlertReceiver alertReceiver=new AlertReceiver();
                     LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(alertReceiver,alterIntentFilter);
+                    secondaryText.setText("Toggle Switch if you are awake?");
                 } else {
                     mBackgroundView.setImageResource(R.drawable.main_activity_background);
                     mUserPreferences.setMyStatus(false);
@@ -293,6 +297,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                     IntentFilter alterIntentFilter=new IntentFilter(Constants.NOISE_ALERT);
                     AlertReceiver alertReceiver=new AlertReceiver();
                     LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(alertReceiver,alterIntentFilter);
+                    secondaryText.setText(R.string.textaboveswitch);
+
                 }
             }
         });

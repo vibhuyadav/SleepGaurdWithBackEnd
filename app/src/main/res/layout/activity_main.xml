@@ -18,6 +18,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
+        android:keepScreenOn="true"
         android:src="@drawable/main_activity_background" />
 
     <RelativeLayout
@@ -52,20 +53,31 @@
             android:layout_marginBottom="25dp"
             android:layout_marginTop="75dp"
             android:checked="false"
-            android:text="@string/SleepToogleOn"
             android:textOff="No"
             android:textOn="Yes" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/textaboveswitch"
+            android:id="@+id/textView2"
+            android:textColor="#ffffff2c"
+            android:layout_above="@+id/sleepToogle"
+            android:textStyle="italic"
+            android:layout_centerHorizontal="true" />
 
-        <!--<Button-->
-            <!--android:id="@+id/testNotificationButton"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_gravity="bottom|center_horizontal"-->
-            <!--android:layout_marginBottom="25dp"-->
-            <!--android:text="@string/TestNotificationButton" />-->
+
+        <TextView
+            android:id="@+id/GoogleMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="25dp"
+            android:layout_marginBottom="25dp"
+            android:gravity="right"
+            android:text="@string/GoogleMessage" />
 
 
         <!--<Button-->
