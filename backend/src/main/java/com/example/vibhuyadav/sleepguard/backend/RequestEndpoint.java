@@ -11,10 +11,11 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.cmd.Query;
-import static com.example.vibhuyadav.sleepguard.backend.OfyService.ofy;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.vibhuyadav.sleepguard.backend.OfyService.ofy;
 
 /**
 
@@ -32,7 +33,6 @@ public class RequestEndpoint {
 
     /**
      * Return a collection of users
-     *
      * @param count The number of users
      * @return a list of users
      */

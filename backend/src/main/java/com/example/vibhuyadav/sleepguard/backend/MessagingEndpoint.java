@@ -11,30 +11,26 @@ import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 import com.google.api.server.spi.config.Api;
-import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
-import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.ThreadManager;
-import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.cmd.Query;
 
-import org.json.simple.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
+import java.util.concurrent.ThreadFactory;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
 
 import static com.example.vibhuyadav.sleepguard.backend.OfyService.ofy;
+
+;
+;
 
 /**
  * An endpoint to send messages to devices registered with the backend
@@ -205,25 +201,30 @@ public class MessagingEndpoint {
             messagingEndpoint.sendMessageToDevice(msg, regId);
         }
 
-        Thread thread = ThreadManager.createBackgroundThread(new Runnable() {
+        ThreadFactory threadFactory = ThreadManager.backgroundThreadFactory();
+
+
+
+
+        Thread thread = ThreadManager.createThreadForCurrentRequest(new Runnable() {
             public void run() {
                 try {
                     Thread.sleep(5000);
                     while (true) {
 
-                        log.info("In Server thread - Processing for request: "+request.deviceId);
+                        log.info("In Server thread - Processing for request: " + request.deviceId);
                         ResponseEndPoint responseEndPoint = new ResponseEndPoint();
-                        List <Response> collectionResponse = responseEndPoint.listResponseRequestId(request.deviceId);
+                        List<Response> collectionResponse = responseEndPoint.listResponseRequestId(request.deviceId);
 
 
-                        for(Response response:collectionResponse){
+                        for (Response response : collectionResponse) {
                             Message msg = new Message.Builder().addData("message_type", "response")
                                     .addData("message", "shut the fuck up")
                                     .build();
-                            MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
+                            MessagingEndpoint messagingEndpoint = new MessagingEndpoint();
                             try {
                                 messagingEndpoint.sendMessageToDevice(msg, response.getmDeviceId());
-                                log.info("Message sent to: "+response.getmDeviceId());
+                                log.info("Message sent to: " + response.getmDeviceId());
                                 try {
                                     responseEndPoint.removeResponse(response.getId());
                                 } catch (NotFoundException e) {
