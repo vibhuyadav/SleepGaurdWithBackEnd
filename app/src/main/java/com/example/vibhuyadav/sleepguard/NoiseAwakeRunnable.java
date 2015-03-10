@@ -46,7 +46,7 @@ public class NoiseAwakeRunnable implements Runnable {
     @Override
     public void run(){
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -99,15 +99,15 @@ public class NoiseAwakeRunnable implements Runnable {
                 response.setAverage(mUserPreferences.getmAverage());
                 new ResponseEndpointsAsyncTask(context).execute(response);
                 mUserPreferences.setRequestStatus(false);
-                isGetAudio=false;// Temporary Test
+            //    isGetAudio=false;// Temporary Test
             }
-       /*     synchronized (mLock) {
+            synchronized (mLock) {
                 try {
                     mLock.wait(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }*/
+            }
         }
         Log.d("report", "finished");
         mAudioRecord.stop();

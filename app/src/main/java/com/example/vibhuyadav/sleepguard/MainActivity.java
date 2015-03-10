@@ -704,6 +704,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         super.onDestroy();
         cancelNotification(0);
 //        stopLocationUpdates();
+        new UserEndpointsAsyncTask(context).execute(Constants.USER_REMOVE_TASK);
+        Log.d(Constants.SleepGuardTag, "in OnDestroy");
 
     }
 
@@ -759,9 +761,11 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     @Override
     protected void onStop() {
         super.onStop();
-        new UserEndpointsAsyncTask(context).execute(Constants.USER_REMOVE_TASK);
+
         mGoogleApiClient.disconnect();
     }
+
+
 
 
     /**

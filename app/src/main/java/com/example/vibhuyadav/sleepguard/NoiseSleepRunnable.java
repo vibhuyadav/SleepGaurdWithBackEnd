@@ -42,7 +42,7 @@ public class NoiseSleepRunnable implements Runnable {
     @Override
     public void run(){
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -50,7 +50,6 @@ public class NoiseSleepRunnable implements Runnable {
                 SAMPLE_RATE_IN_HZ, AudioFormat.CHANNEL_IN_DEFAULT,
                 AudioFormat.ENCODING_PCM_16BIT, BUFFER_SIZE);
         mLock = new Object();
-        mAudioRecord.stop();
         mAudioRecord.startRecording();
         short[] buffer = new short[BUFFER_SIZE];
 
@@ -61,7 +60,7 @@ public class NoiseSleepRunnable implements Runnable {
             for (int i = 0; i < r; i++) {
                 audioWindow.push(buffer[i], approximateTime);
             }
-            //Log.d("Num over threshold", Integer.toString(audioWindow.num_over_threshold));
+            //Log.d("Num over threshold", Integer.toString(audioWindow.num_over_threshold));Nm
             if (audioWindow.num_over_threshold > NUM_OVER_THRESHOLD && audioWindow.isFull()) {
                 if((System.currentTimeMillis()-lastRequest)>10000) {
                     lastRequest=System.currentTimeMillis();
@@ -74,16 +73,16 @@ public class NoiseSleepRunnable implements Runnable {
                             , Integer.toString(audioWindow.getAverageAmplitude())};
                     mUserPreferences.setmAverage((double)audioWindow.getAverageAmplitude());
                     new NoiseSleepAsyncTask(context).execute(params);
-                    isGetAudio = false;// Temporary Test
+              //      isGetAudio = false;// Temporary Test
                 }
             }
-          /*  synchronized (mLock) {
+            synchronized (mLock) {
                 try {
                     mLock.wait(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }*/
+            }
         }
         Log.d("report", "finished");
         mAudioRecord.stop();
