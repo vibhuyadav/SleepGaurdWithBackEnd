@@ -206,35 +206,41 @@ public class MessagingEndpoint {
             messagingEndpoint.sendMessageToDevice(msg, regId);
         }
 
-        Thread thread = ThreadManager.createThreadForCurrentRequest(new Runnable() {
+
+        Thread thread = ThreadManager.createBackgroundThread(new Runnable() {
             public void run() {
+                Request lRequest = new Request();
+                lRequest.setDeviceId(request.getDeviceId());
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(5000);
                     while (true) {
 
-                        log.info("In Server thread - Processing for request: "+request.deviceId);
+                        log.info("In Server thread - Processing for request: " + lRequest.getDeviceId());
                         ResponseEndPoint responseEndPoint = new ResponseEndPoint();
-                        List <Response> collectionResponse = responseEndPoint.listResponseRequestId(request.deviceId);
+                        List<Response> collectionResponse = responseEndPoint.listResponseRequestId(lRequest.getDeviceId());
+                        System.out.println("collection response size: " + collectionResponse.size());
+
                         collectionResponse.sort(new Comparator<Response>() {
                             @Override
                             public int compare(Response o1, Response o2) {
-                                return o1.getAverage().compareTo(o2.getAverage());
+                                return o2.getAverage().compareTo(o1.getAverage());
                             }
                         });
 
                         Message msg = new Message.Builder().addData("message_type", "response")
-                                .addData("message", "shut the fuck up")
+                                .addData("message", "Quiet down please. Someone is trying to sleep")
                                 .build();
-                        MessagingEndpoint messagingEndpoint=new MessagingEndpoint();
+                        MessagingEndpoint messagingEndpoint = new MessagingEndpoint();
                         try {
                             messagingEndpoint.sendMessageToDevice(msg, collectionResponse.get(0).getmDeviceId());
-                            log.info("Message sent to: "+collectionResponse.get(0).getmDeviceId()+ " with average "+collectionResponse.get(0).getAverage());
+                            System.out.println("Message sent to: " + collectionResponse.get(0).getmDeviceId() + " with average " + collectionResponse.get(0).getAverage());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
 
-                        for(Response response:collectionResponse){
+                        for (Response response : collectionResponse) {
                             try {
+                                System.out.println("Device average: " + response.getAverage());
                                 responseEndPoint.removeResponse(response.getId());
                             } catch (NotFoundException e) {
                                 e.printStackTrace();

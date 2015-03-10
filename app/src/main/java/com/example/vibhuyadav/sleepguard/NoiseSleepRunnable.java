@@ -19,7 +19,7 @@ public class NoiseSleepRunnable implements Runnable {
     static final int SAMPLE_RATE_IN_HZ = 16000;
     static final short THRESHOLD = 2000;
     static final int NUM_OVER_THRESHOLD = 1000;
-    static final int WINDOW_WIDTH = 10;//second
+    static final int WINDOW_WIDTH = 5;//second
     static final int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE_IN_HZ,
             AudioFormat.CHANNEL_IN_DEFAULT, AudioFormat.ENCODING_PCM_16BIT);
     AudioRecord mAudioRecord;
@@ -43,7 +43,7 @@ public class NoiseSleepRunnable implements Runnable {
     @Override
     public void run(){
         try {
-            Thread.sleep(200);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -63,7 +63,7 @@ public class NoiseSleepRunnable implements Runnable {
             }
             //Log.d("Num over threshold", Integer.toString(audioWindow.num_over_threshold));Nm
             if (audioWindow.num_over_threshold > NUM_OVER_THRESHOLD && audioWindow.isFull()) {
-                if((System.currentTimeMillis()-lastRequest)>10000) {
+                if((System.currentTimeMillis()-lastRequest)>15000) {
                     lastRequest=System.currentTimeMillis();
                     Intent localIntent = new Intent(Constants.NOISE_ALERT);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
@@ -74,7 +74,7 @@ public class NoiseSleepRunnable implements Runnable {
                             , Integer.toString(audioWindow.getAverageAmplitude())};
                     mUserPreferences.setmAverage((double)audioWindow.getAverageAmplitude());
                     new NoiseSleepAsyncTask(context).execute(params);
-              //      isGetAudio = false;// Temporary Test
+                    isGetAudio = false;// Temporary Test
                 }
             }
             synchronized (mLock) {

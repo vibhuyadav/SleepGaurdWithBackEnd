@@ -74,7 +74,7 @@ public class NoiseSleepAsyncTask extends AsyncTask<String[], Void, String> {
 
 */
         try {
-            Toast.makeText(mContext, "Noise Detected!", Toast.LENGTH_LONG).show();
+
             messagingAPI.messagingEndpoint().sendRequest(request).execute();
             //messagingAPI.(regId,timeStamp).execute();
         } catch (IOException e) {
