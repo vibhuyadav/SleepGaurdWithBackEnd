@@ -39,7 +39,7 @@
             android:layout_marginTop="25dp"
             android:text="@string/AppName"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#f7161655"
+            android:textColor="#ffffff2c"
             android:textSize="24dp"
             android:textStyle="bold" />
 
@@ -57,59 +57,59 @@
             android:textOn="Yes" />
 
 
-        <Button
-            android:id="@+id/testNotificationButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="25dp"
-            android:text="@string/TestNotificationButton" />
+        <!--<Button-->
+            <!--android:id="@+id/testNotificationButton"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_gravity="bottom|center_horizontal"-->
+            <!--android:layout_marginBottom="25dp"-->
+            <!--android:text="@string/TestNotificationButton" />-->
 
 
-        <Button
-            android:id="@+id/button_device_status"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/testNotificationButton"
-            android:layout_marginBottom="25dp"
-            android:layout_toLeftOf="@+id/textView"
-            android:layout_toStartOf="@+id/textView"
-            android:text="Dev_Id" />
+        <!--<Button-->
+            <!--android:id="@+id/button_device_status"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_above="@+id/testNotificationButton"-->
+            <!--android:layout_marginBottom="25dp"-->
+            <!--android:layout_toLeftOf="@+id/textView"-->
+            <!--android:layout_toStartOf="@+id/textView"-->
+            <!--android:text="Dev_Id" />-->
 
 
-        <Button
-            android:id="@+id/button_steep_status"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/testNotificationButton"
-            android:layout_alignEnd="@+id/textView"
-            android:layout_alignRight="@+id/textView"
-            android:layout_marginBottom="25dp"
-            android:text="Sleep Status" />
+        <!--<Button-->
+            <!--android:id="@+id/button_steep_status"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_above="@+id/testNotificationButton"-->
+            <!--android:layout_alignEnd="@+id/textView"-->
+            <!--android:layout_alignRight="@+id/textView"-->
+            <!--android:layout_marginBottom="25dp"-->
+            <!--android:text="Sleep Status" />-->
 
-        <Button
-            android:id="@+id/button_save_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/testNotificationButton"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="25dp"
-            android:text="Save Data" />
+        <!--<Button-->
+            <!--android:id="@+id/button_save_data"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_above="@+id/testNotificationButton"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginBottom="25dp"-->
+            <!--android:text="Save Data" />-->
 
-        <Button
-            android:id="@+id/button_sendMessage"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/button_device_status"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="25dp"
-            android:text="Send Msg" />
+        <!--<Button-->
+            <!--android:id="@+id/button_sendMessage"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_above="@+id/button_device_status"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginBottom="25dp"-->
+            <!--android:text="Send Msg" />-->
 
         <!--<Button-->
         <!--android:id="@+id/add_geofences_button"-->

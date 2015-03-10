@@ -151,7 +151,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         final View controlsView;
         controlsView = findViewById(R.id.textView);
         final View controlsButtonView;
-        controlsButtonView = findViewById(R.id.testNotificationButton);
+//        controlsButtonView = findViewById(R.id.testNotificationButton);
         final View contentView;
         contentView = findViewById(R.id.backgroundImage1);
 
@@ -206,15 +206,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                             controlsView.animate()
                                     .translationY(visible ? 0 : -mControlsHeight)
                                     .setDuration(mShortAnimTime);
-                            controlsButtonView.animate()
-                                    .translationY(visible ? 0 : mControlsHeight)
-                                    .setDuration(mShortAnimTime);
+//                            controlsButtonView.animate()
+//                                    .translationY(visible ? 0 : mControlsHeight)
+//                                    .setDuration(mShortAnimTime);
                         } else {
                             // If the ViewPropertyAnimator APIs aren't
                             // available, simply show or hide the in-layout UI
                             // controls.
                             controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
-                            controlsButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
+//                            controlsButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
                         }
 
                         if (visible && AUTO_HIDE) {
@@ -239,7 +239,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.testNotificationButton).setOnTouchListener(mDelayHideTouchListener);
+//        findViewById(R.id.testNotificationButton).setOnTouchListener(mDelayHideTouchListener);
 
 //        mDisplay = (TextView) findViewById(R.id.display);
 //
@@ -319,39 +319,39 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
 
         // we will set the listeners
-        findViewById(R.id.testNotificationButton).setOnClickListener(handler);
-
-        findViewById(R.id.button_device_status).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(Constants.SleepGuardTag,"About to check device ID");
-                Log.d(Constants.SleepGuardTag,"Device Id: "+mUserPreferences.getMyDeviceId());
-                Toast.makeText(context, "Device Id: "+mUserPreferences.getMyDeviceId(), Toast.LENGTH_LONG).show();
-            }
-        });
-
-        findViewById(R.id.button_steep_status).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(Constants.SleepGuardTag,"About to Sleep status");
-                Log.d(Constants.SleepGuardTag,"Sleep Status: "+mUserPreferences.getMySleepStatus());
-                Toast.makeText(context, "Sleep Status: "+mUserPreferences.getMySleepStatus(), Toast.LENGTH_LONG).show();
-            }
-        });
-
-        findViewById(R.id.button_save_data).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new UserEndpointsAsyncTask(context).execute(Constants.USER_INSERT_TASK);
-            }
-        });
-
-        findViewById(R.id.button_sendMessage).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        findViewById(R.id.testNotificationButton).setOnClickListener(handler);
+//
+//        findViewById(R.id.button_device_status).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d(Constants.SleepGuardTag,"About to check device ID");
+//                Log.d(Constants.SleepGuardTag,"Device Id: "+mUserPreferences.getMyDeviceId());
+//                Toast.makeText(context, "Device Id: "+mUserPreferences.getMyDeviceId(), Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//        findViewById(R.id.button_steep_status).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d(Constants.SleepGuardTag,"About to Sleep status");
+//                Log.d(Constants.SleepGuardTag,"Sleep Status: "+mUserPreferences.getMySleepStatus());
+//                Toast.makeText(context, "Sleep Status: "+mUserPreferences.getMySleepStatus(), Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//        findViewById(R.id.button_save_data).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new UserEndpointsAsyncTask(context).execute(Constants.USER_INSERT_TASK);
+//            }
+//        });
+//
+//        findViewById(R.id.button_sendMessage).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
 //        Intent mServiceIntent = new Intent(this, Voice.class);
 //        startService(mServiceIntent);
