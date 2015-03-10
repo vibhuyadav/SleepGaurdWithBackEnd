@@ -63,9 +63,10 @@
             android:text="@string/textaboveswitch"
             android:id="@+id/textView2"
             android:textColor="#ffffff2c"
-            android:layout_above="@+id/sleepToogle"
             android:textStyle="italic"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignBottom="@+id/sleepToogle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="66dp" />
 
 
         <TextView
