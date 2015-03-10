@@ -206,7 +206,7 @@ public class MessagingEndpoint {
             messagingEndpoint.sendMessageToDevice(msg, regId);
         }
 
-        Thread thread = ThreadManager.createBackgroundThread(new Runnable() {
+        Thread thread = ThreadManager.createThreadForCurrentRequest(new Runnable() {
             public void run() {
                 try {
                     Thread.sleep(2000);

@@ -19,7 +19,7 @@ public class NoiseAwakeRunnable implements Runnable {
     private static final String TAG = "AudioRecord";
     static final int SAMPLE_RATE_IN_HZ = 16000;
     static final short THRESHOLD = 4000;
-    static final int WINDOW_WIDTH = 5;//second
+    static final int WINDOW_WIDTH = 10;//second
 
     static final int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE_IN_HZ,
             AudioFormat.CHANNEL_IN_DEFAULT, AudioFormat.ENCODING_PCM_16BIT);
@@ -46,7 +46,7 @@ public class NoiseAwakeRunnable implements Runnable {
     @Override
     public void run(){
         try {
-            Thread.sleep(500);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
